@@ -17,7 +17,7 @@ Resolve any `[ERROR]` lines. `[WARN]` lines are advisory.
 Two-step: add the marketplace, then install the plugin.
 
 ```
-/plugin marketplace add Roboco-op/robobuilder
+/plugin marketplace add Robo-Co-op/robobuilder
 /plugin install robobuilder@robo-coop-tools
 ```
 
@@ -33,7 +33,7 @@ To enroll an entire repo's contributors, add to your project's `.claude/settings
 {
   "extraKnownMarketplaces": {
     "robo-coop-tools": {
-      "source": { "source": "github", "repo": "Roboco-op/robobuilder" }
+      "source": { "source": "github", "repo": "Robo-Co-op/robobuilder" }
     },
     "enabledPlugins": {
       "robobuilder@robo-coop-tools": true
@@ -111,4 +111,4 @@ Generates a scheduled-routine spec at `~/.claude/plugins/robobuilder/feature_rad
 /robobuilder:upgrade
 ```
 
-Pulls the latest from the upstream Roboco-op repo, shows a diff, applies on approval. If the baseline changes, prompts to re-run `tune-claude-md`.
+Pulls the latest from the upstream Robo-Co-op repo, shows a diff, applies on approval. If the baseline changes, prompts to re-run `tune-claude-md`.

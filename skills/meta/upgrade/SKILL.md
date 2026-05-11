@@ -6,7 +6,7 @@ description: Semver-aware upgrade of robobuilder. Pulls latest from the official
 # /robobuilder:upgrade
 
 ## What
-Upgrades robobuilder to the latest version from the official Roboco-op GitHub repo. Shows a diff preview before applying.
+Upgrades robobuilder to the latest version from the official Robo-Co-op GitHub repo. Shows a diff preview before applying.
 
 ## When
 - User wants to pick up the latest team-curated skills, agents, or baseline CLAUDE.md

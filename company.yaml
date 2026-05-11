@@ -3,7 +3,7 @@
 # without prompting the user every time.
 
 org: Robo Co-op
-git_org: Roboco-op              # official GitHub org (not jintkim-robo personal)
+git_org: Robo-Co-op              # official GitHub org (not jintkim-robo personal)
 locale_default: en
 
 # --- Communication ---

@@ -8,7 +8,7 @@
     "email": "tools@roboco-op.org"
   },
   "homepage": "https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504",
-  "repository": "https://github.com/Roboco-op/robobuilder",
+  "repository": "https://github.com/Robo-Co-op/robobuilder",
   "license": "MIT",
   "keywords": ["robo-co-op", "workflow", "tdd", "bootcamp", "compounding-engineering"],
   "skills": [

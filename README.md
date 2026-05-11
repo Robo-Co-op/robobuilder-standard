@@ -26,7 +26,7 @@ Not personal-projects scaffolding — use Skill Creator for one-off skills you d
 ## Install
 
 ```sh
-/plugin marketplace add Roboco-op/robobuilder
+/plugin marketplace add Robo-Co-op/robobuilder
 /plugin install robobuilder@robo-coop-tools
 /reload-plugins
 ```
@@ -76,4 +76,4 @@ Full license in `LICENSE`.
 
 ## Contributing
 
-Found a repeatable pattern? Use `/robobuilder:write-a-skill` to draft it, then open a PR in the Roboco-op org. See `docs/CONTRIBUTING.md`.
+Found a repeatable pattern? Use `/robobuilder:write-a-skill` to draft it, then open a PR in the Robo-Co-op org. See `docs/CONTRIBUTING.md`.

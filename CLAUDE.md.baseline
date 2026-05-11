@@ -116,7 +116,7 @@ Reference `${CLAUDE_PLUGIN_ROOT}/company.yaml` for the canonical list. Highlight
 - Docs: Notion (Bootcamp hub: see `company.yaml`)
 - Tasks: Asana
 - Chat: Microsoft Teams
-- Git: GitHub `Roboco-op` org
+- Git: GitHub `Robo-Co-op` org
 
 When generating code or docs, default to these unless the user explicitly chooses otherwise.
 
