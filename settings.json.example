@@ -1,0 +1,74 @@
+{
+  "_comment": "Robo Co-op recommended Claude Code settings. Copy relevant blocks into your ~/.claude/settings.json — do not replace your whole settings file.",
+  "_precedence_note": "Claude Code permission precedence: deny → ask → allow, first match wins. So the broad allow patterns below (Read(*), Grep(*), Glob(*)) do NOT override the deny patterns for .env / credentials / keys. Verified against https://code.claude.com/docs/en/settings.",
+
+  "model": "claude-opus-4-7",
+
+  "permissions": {
+    "allow": [
+      "Bash(git status)",
+      "Bash(git diff:*)",
+      "Bash(git log:*)",
+      "Bash(git branch:*)",
+      "Bash(git show:*)",
+      "Bash(ls:*)",
+      "Bash(pwd)",
+      "Bash(cat:*)",
+      "Bash(echo:*)",
+      "Read(*)",
+      "Grep(*)",
+      "Glob(*)"
+    ],
+    "deny": [
+      "Bash(rm -rf /:*)",
+      "Bash(rm -rf ~/:*)",
+      "Bash(rm -rf .:*)",
+      "Bash(git push --force origin main:*)",
+      "Bash(git push --force origin master:*)",
+      "Bash(git reset --hard origin/main:*)",
+      "Bash(curl * | bash:*)",
+      "Bash(curl * | sh:*)",
+      "Bash(wget * | bash:*)",
+      "Bash(wget * | sh:*)",
+      "Bash(wget -O- * | bash:*)",
+      "Bash(wget -O- * | sh:*)",
+      "Write(**/.env)",
+      "Write(**/.env.*)",
+      "Write(**/.envrc)",
+      "Write(**/*credentials*)",
+      "Write(**/*secret*)",
+      "Write(**/*.pem)",
+      "Write(**/*.key)",
+      "Write(**/id_rsa)",
+      "Write(**/id_ed25519)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(**/.envrc)",
+      "Read(**/*credentials*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)"
+    ]
+  },
+
+  "env": {
+    "BASH_DEFAULT_TIMEOUT_MS": "120000",
+    "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "true"
+  },
+
+  "cleanupPeriodDays": 30,
+
+  "_recommended_mcp_servers": [
+    "playwright",
+    "supabase",
+    "github",
+    "notion",
+    "teams"
+  ],
+
+  "_notes": [
+    "permissions.allow patterns enable common read-only operations without prompting.",
+    "permissions.deny patterns hard-block destructive and secret-leaking operations.",
+    "Hook scripts ship with robobuilder; enable them by referencing hooks/hooks.json.",
+    "After copying this into your settings, run /robobuilder:tune-claude-md to align your CLAUDE.md with these settings."
+  ]
+}

@@ -1,0 +1,78 @@
+# Robo Co-op company intelligence layer
+# Skills read this file to apply correct branding, tools, and integrations
+# without prompting the user every time.
+
+org: Robo Co-op
+git_org: Roboco-op              # official GitHub org (not jintkim-robo personal)
+locale_default: en
+
+# --- Communication ---
+chat:
+  platform: teams               # Microsoft Teams (not Slack)
+  default_handoff_channel: ""   # TBD — fill with channel ID after install
+
+# --- Documents ---
+docs:
+  notion_workspace: Robo Co-op
+  notion_hub: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
+  notion_bootcamp_root_page_id: "34e5a7e135d2807daec1d83e41d93504"
+
+# --- Task tracking ---
+task_tracker:
+  platform: asana
+  workspace: Robo Co-op
+
+# --- Secrets management ---
+secrets:
+  manager: 1password
+  cli: op                       # usage: op read "op://vault/item/credential"
+  vaults:
+    - Robo Co-op
+    - Engineering
+
+# --- Infrastructure ---
+frontend_hosting: vercel
+db:
+  primary: supabase
+  warehouse: azure-sql          # AZTK Mission Control backend
+payments: stripe
+serverless: azure-functions
+
+# --- Brand colors (4 brands) ---
+# Source: memory/reference_brand_guidelines.md
+# Fill in after preflight-check reads guidelines
+brand_colors:
+  robo_coop:
+    primary: ""
+    secondary: ""
+  startup_robo:
+    primary: ""
+    secondary: ""
+  robo_match:
+    primary: ""
+    secondary: ""
+  open_careers:
+    primary: ""
+    secondary: ""
+
+# --- AI / model defaults ---
+model:
+  primary: claude-opus-4-7      # coding work
+  fallback: claude-sonnet-4-6   # general-purpose
+  fast: claude-haiku-4-5-20251001
+
+# --- Companion plugin recommendations by role ---
+companion_presets:
+  dev:
+    - anthropic-skills:pptx
+    - anthropic-skills:docx
+    - codex
+  pm:
+    - product-management
+    - design
+  sales:
+    - sales
+    - brand-voice
+  design:
+    - design
+    - brand-voice

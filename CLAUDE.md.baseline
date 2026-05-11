@@ -1,0 +1,153 @@
+# Robo Co-op Baseline — CLAUDE.md
+
+> This is the Robo Co-op best-practice baseline.
+> It is NOT auto-loaded. Run `/robobuilder:tune-claude-md` to merge it into your `~/.claude/CLAUDE.md`.
+
+## Communication
+
+- Default response language: English.
+- If user repeatedly asks for another language, the personalization wizard will pick this up and add a preference to your CLAUDE.md.
+- Be concise. End-of-turn summaries are at most 1–2 sentences.
+
+## Coding standards
+
+### General
+- Prefer editing existing files over creating new ones.
+- Don't write code that won't be needed today (no speculative abstraction, no premature generalization).
+- Three similar lines beats one premature abstraction. Abstract on the third repetition.
+- No half-finished implementations. Either land it or don't start.
+
+### JavaScript / TypeScript
+- ES modules only.
+- Use `unknown` over `any`; treat the linter's TypeScript rules as enforced.
+- Follow the repo's ESLint / Prettier config without modification unless explicitly asked.
+
+### Python
+- PEP 8.
+- f-strings for formatting.
+- Type hints on public functions.
+
+### Comments
+- Default: don't write comments. Identifiers should communicate.
+- Write a comment only when the *why* is non-obvious (hidden constraint, subtle invariant, workaround).
+- Never reference current task / fix / callers ("for the X flow", "fixes issue #123") — that rots.
+- Never write multi-paragraph docstrings unless explicitly requested.
+
+## Workflow: Explore → Plan → Code → Commit
+
+1. **Explore first** — read enough of the codebase to understand structure before editing.
+2. **Plan in Plan mode** for non-trivial tasks; wait for approval.
+3. **Code** in small, reversible steps.
+4. **Commit** after each working slice; commit messages start with a verb (English).
+5. One session = one task. Run `/clear` between tasks.
+6. Run `/compact` when context use exceeds ~60%.
+
+## Prototype-first + TDD
+
+When building a new product or feature:
+
+- **Prototype before spec.** Specs that don't survive a working prototype are speculation.
+- **TDD core logic** — failing test → minimal pass → refactor.
+- **Test pyramid**: Unit (many) : E2E (few) ≈ 20 : 1. Don't invert.
+- E2E lives in Playwright; delegate to the `e2e-tester` subagent.
+- Cross-AI review major merges with `/diff-review` or `/cross-review`.
+- Don't carry prototype code into production without an explicit refactor decision.
+
+## Error handling
+
+- If the same fix fails twice, change approach and report.
+- Read the error message carefully before mutating code.
+- Root-cause first, patch second.
+
+## Compounding Engineering
+
+This loop turns mistakes into permanent improvements:
+
+1. User corrects you, or you confirm a non-obvious good choice → update the relevant `memory/` file *immediately*.
+2. If you make the same mistake twice, you must write a `feedback` memory with `**Why:**` and `**How to apply:**` lines.
+3. After any meaningful correction, ask: "Save this to memory?"
+
+Memory types: `user`, `feedback`, `project`, `reference`. See your CLAUDE.md for the memory system spec (built-in to Claude Code; not duplicated here).
+
+## Subagent activation
+
+Use subagents automatically — don't always ask:
+
+- 3+ search queries or codebase-wide exploration → `Explore` (or `codebase-explorer` from robobuilder).
+- Independent second opinion → the relevant phase-specific agent.
+- Large result sets that would pollute main context → delegate to a subagent and request a short report.
+- Two or more independent tasks → spawn agents in parallel.
+
+State the agent and reason in one sentence: "Using `design-critic` for an independent design review."
+
+## File safety
+
+- Never read or write `.env`, `credentials*`, private keys, or 1Password vaults.
+- Secrets via 1Password CLI: `op read "op://<vault>/<item>/<credential>"`.
+- Lock files (`package-lock.json`, `bun.lock`, etc.) — never hand-edit.
+- Bash hooks `block_secrets.py` (shipped by robobuilder) enforces this; do not bypass.
+
+## Tool preferences
+
+- Search: prefer `Grep` / `Glob` over shell `grep` / `find`.
+- File read: `Read` tool, not `cat` / `head` / `tail`.
+- File edit: `Edit` tool, not `sed` / `awk`.
+- Multi-edit same file: `Edit` with `replace_all` or `MultiEdit`.
+- Don't `cd` more than necessary; use absolute paths.
+
+## Commits
+
+- English commit messages, verb-first ("Add", "Fix", "Refactor", "Remove", "Update", "Document").
+- One logical change per commit.
+- No `--no-verify`, no `--amend` of already-pushed commits.
+- Co-author trailer for AI-written commits:
+  `Co-Authored-By: Claude <noreply@anthropic.com>`
+
+## Robo Co-op stack defaults
+
+Reference `${CLAUDE_PLUGIN_ROOT}/company.yaml` for the canonical list. Highlights:
+
+- Secrets: 1Password (`op` CLI)
+- Frontend hosting: Vercel
+- Primary DB: Supabase
+- Data warehouse: Azure SQL
+- Serverless: Azure Functions
+- Payments: Stripe
+- Docs: Notion (Bootcamp hub: see `company.yaml`)
+- Tasks: Asana
+- Chat: Microsoft Teams
+- Git: GitHub `Roboco-op` org
+
+When generating code or docs, default to these unless the user explicitly chooses otherwise.
+
+## Skill discovery
+
+- `/robobuilder:start` — onboarding wizard
+- `/robobuilder:btw` — one-shot question without engaging a full skill flow
+- `/robobuilder:playbook-*` — multi-skill flows
+- `/robobuilder:tune-claude-md` — re-merge your CLAUDE.md when this baseline updates
+- `/robobuilder:upgrade` — pull latest plugin
+
+For the full chart: `${CLAUDE_PLUGIN_ROOT}/docs/WORKFLOW.md`.
+For the decision tree: `${CLAUDE_PLUGIN_ROOT}/docs/DECISION_FLOW.md`.
+
+## Security-sensitive code (hooks, scripts, regex gates)
+
+When writing or modifying:
+- Hook scripts that intercept tool use (PreToolUse / PostToolUse)
+- Setup scripts that fetch or execute third-party code (`install_*.sh`)
+- Regex-based gates over data or paths (secret detection, content validation)
+
+Apply these defaults:
+
+1. **Security-auditor before code-simplifier.** The first review pass on this kind of code is for OWASP, command injection, supply-chain — not style. Style review can wait; security cannot, because hooks have the largest possible blast radius (every Edit/Write, every user).
+
+2. **Enumerate all code paths before claiming a supply-chain fix is done.** Write the table (fresh-install / upgrade / re-run / fallback / CI / branch-tip-with-auto-yes) and verify the guard fires on each row. A guard that only fires on one row is not a guard.
+
+3. **Tests first for regex.** Before writing or modifying any security/validation regex, write the table-driven test cases: `SHOULD_MATCH` and `SHOULD_NOT_MATCH`, each row labelled with realistic input (including doc files that contain the word "credentials", fixture files with JWT-shaped strings, etc.). Run them against the current regex first to discover the gaps, then write the fix.
+
+## Feature Adoption Loop
+
+The scheduled `cc-feature-radar` agent (installed by `scripts/install_feature_radar.sh`) checks Claude Code / plugin / Codex releases daily and appends findings to `feature_radar.md` in your nexus. Review weekly; decide try / skip / defer; record outcomes in `memory/`.
+
+Discovery is automatic; adoption is human judgement. Don't auto-apply features.

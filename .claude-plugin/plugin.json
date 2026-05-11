@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
+  "name": "robobuilder",
+  "version": "1.0.0",
+  "description": "Robo Co-op standard Claude Code dev plugin — embodies Bootcamp v3 M3+M6 with 33 skills, 9 phase-specific agents, 3 playbooks, harness config, and bidirectional Notion learning loop.",
+  "author": {
+    "name": "Robo Co-op",
+    "email": "tools@roboco-op.org"
+  },
+  "homepage": "https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504",
+  "repository": "https://github.com/Roboco-op/robobuilder",
+  "license": "MIT",
+  "keywords": ["robo-co-op", "workflow", "tdd", "bootcamp", "compounding-engineering"],
+  "skills": [
+    "./skills/meta/",
+    "./skills/phase0/",
+    "./skills/phase05/",
+    "./skills/phase1/",
+    "./skills/phase2/",
+    "./skills/phase3/",
+    "./skills/phase35/",
+    "./skills/phase4/",
+    "./skills/phase5/",
+    "./skills/utils/",
+    "./skills/playbooks/"
+  ],
+  "agents": [
+    "./agents/codebase-explorer.md",
+    "./agents/design-critic.md",
+    "./agents/requirements-validator.md",
+    "./agents/tdd-pair.md",
+    "./agents/code-simplifier.md",
+    "./agents/test-writer.md",
+    "./agents/security-auditor.md",
+    "./agents/e2e-tester.md",
+    "./agents/release-notes-writer.md"
+  ],
+  "hooks": "./hooks/hooks.json"
+}

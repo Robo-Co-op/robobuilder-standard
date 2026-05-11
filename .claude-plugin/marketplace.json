@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "robo-coop-tools",
+  "owner": {
+    "name": "Robo Co-op",
+    "email": "tools@roboco-op.org"
+  },
+  "description": "Robo Co-op official marketplace — the team-curated Claude Code plugins.",
+  "version": "1.0.0",
+  "plugins": [
+    {
+      "name": "robobuilder",
+      "source": "./",
+      "description": "Robo Co-op standard dev plugin — 33 skills, 9 phase-specific agents, 3 playbooks, harness config, bidirectional Notion learning loop.",
+      "version": "1.0.0",
+      "category": "development",
+      "tags": ["robo-co-op", "workflow", "tdd", "bootcamp", "compounding-engineering"],
+      "license": "MIT",
+      "author": {
+        "name": "Robo Co-op",
+        "email": "tools@roboco-op.org"
+      },
+      "homepage": "https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504"
+    }
+  ]
+}
