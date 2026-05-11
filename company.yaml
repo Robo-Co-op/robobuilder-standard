@@ -38,22 +38,58 @@ db:
 payments: stripe
 serverless: azure-functions
 
-# --- Brand colors (4 brands) ---
-# Source: memory/reference_brand_guidelines.md
-# Fill in after preflight-check reads guidelines
+# --- Brand colors (Brand Guidelines 2026 v2.0) ---
+# Source: reference_brand_guidelines.md (Robo Co-op SharePoint)
+# Master + 3 sub-brands. Sub-brand logos MUST use their primary color (no recolor).
 brand_colors:
-  robo_coop:
-    primary: ""
-    secondary: ""
-  startup_robo:
-    primary: ""
-    secondary: ""
-  robo_match:
-    primary: ""
-    secondary: ""
-  open_careers:
-    primary: ""
-    secondary: ""
+  robo_coop:          # master brand
+    primary: "#8B3FFF"      # Infinity Purple
+    primary_alt: "#6B2FCC"  # Deep Purple
+    accent: "#B380FF"       # Lavender
+    black: "#000000"
+    white: "#FFFFFF"
+
+  robo_lab:           # technology sub-brand (Pantone 2925 C)
+    primary: "#007DD1"      # Primary Blue
+    cyan: "#00C3FF"         # Electric Cyan
+    sky: "#4DA3E0"          # Sky Blue
+    midnight: "#001F3F"     # Midnight Blue
+    navy: "#003D66"         # Deep Navy
+    teal: "#00D9A5"         # Success Teal
+    ice: "#E6F5FF"          # Ice Blue
+    accent: "#FF6B35"       # Tech Orange
+
+  robo_university:    # education sub-brand (Pantone 368 C)
+    primary: "#6EC207"      # Primary Green
+    lime: "#A8E600"         # Fresh Lime
+    sage: "#8FB569"         # Sage
+    forest_dark: "#1A3D02"  # Forest Dark
+    forest_deep: "#3A6104"  # Deep Forest
+    gold: "#FFB800"         # Achievement Gold
+    mint: "#F0FFDE"         # Mint Cream
+    accent: "#9B59B6"       # Energy Purple
+
+  co_op_lab:          # community sub-brand (Pantone 1788 C)
+    primary: "#FF3F33"      # Primary Red
+    coral: "#FF6B63"        # Coral Energy
+    salmon: "#FF8A80"       # Salmon
+    burgundy: "#4D0D0A"     # Burgundy Dark
+    crimson: "#B32D25"      # Deep Crimson
+    blush: "#FFF0EF"        # Blush
+    cyan: "#0EA5E9"         # Community Cyan
+    purple: "#A855F7"       # Creative Purple
+
+# Typography (all brands)
+font:
+  family: "Roboto"
+  header_weight: 700        # Bold; 900 (Black) also approved
+  body_weight: 400
+
+# Color usage rule (60-30-10)
+color_ratio:
+  neutral: 60               # white / gray / dark background
+  primary: 30               # brand primary color (structure)
+  accent: 10                # CTAs / highlights
 
 # --- AI / model defaults ---
 model:
