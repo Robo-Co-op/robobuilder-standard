@@ -44,6 +44,31 @@ To enroll an entire repo's contributors, add to your project's `.claude/settings
 
 Team members get prompted to install on next session.
 
+## 2b. Install as OpenClaw / Codex skills
+
+Claude Code remains the source of truth, but the same RoboBuilder skills can be
+generated as standard OpenClaw/Codex skill directories.
+
+OpenClaw:
+
+```bash
+python3 scripts/export_openclaw_codex_skills.py \
+  --target ~/.openclaw/skills \
+  --replace-existing
+```
+
+Codex:
+
+```bash
+python3 scripts/export_openclaw_codex_skills.py \
+  --target "${CODEX_HOME:-$HOME/.codex}/skills" \
+  --replace-existing
+```
+
+This creates prefixed skills like `robobuilder-tdd`, `robobuilder-diff-review`,
+and `robobuilder-ship`, plus a shared `_robobuilder_shared/` resource directory.
+See `docs/OPENCLAW_CODEX.md`.
+
 ## 3. First-time setup
 
 ```
