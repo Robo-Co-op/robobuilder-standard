@@ -60,15 +60,11 @@ This wizard asks 3 questions and points you at your first 3 skills.
 
 Merges the Robo Co-op baseline into your `~/.claude/CLAUDE.md`. Preserves personal entries (paths, IPs, vaults).
 
-## 5. (Optional) Compile browser binaries
+## 5. Runtime binaries
 
-`/robobuilder:browse` and any other Playwright-backed skills require GStack's compiled binaries.
+robobuilder does not require users to install external runtime binaries.
 
-```bash
-bash ~/.claude/plugins/robobuilder/scripts/install_binaries.sh
-```
-
-Prereq: [bun](https://bun.sh) installed.
+If a project needs browser automation, use that project's own Playwright/browser setup. `scripts/install_binaries.sh` remains as a no-op compatibility shim for older setup automation.
 
 ## 6. (Optional) Enable Feature Adoption Loop
 
@@ -76,7 +72,7 @@ Prereq: [bun](https://bun.sh) installed.
 bash ~/.claude/plugins/robobuilder/scripts/install_feature_radar.sh
 ```
 
-Generates a scheduled-routine spec at `~/.claude/plugins/robobuilder/feature_radar_routine.md`. Follow the manual setup steps inside it (paste into `/anthropic-skills:schedule`).
+Generates a scheduled-routine spec at `${ROBOBUILDER_HOME:-$HOME/.robobuilder}/feature_radar_routine.md`. Follow the manual setup steps inside it (paste into `/anthropic-skills:schedule`).
 
 ## 7. (Optional) Install companion plugins by role
 
@@ -101,7 +97,7 @@ Generates a scheduled-routine spec at `~/.claude/plugins/robobuilder/feature_rad
 ## Troubleshooting
 
 - **Hooks not firing**: confirm `~/.claude/settings.json` references `${CLAUDE_PLUGIN_ROOT}/hooks/hooks.json`, or copy hook scripts to your global hooks.
-- **`/browse` errors**: re-run `install_binaries.sh`.
+- **`/browse` errors**: check the target project's Playwright/browser tooling and test command; robobuilder does not install separate browser binaries.
 - **Skill collision**: robobuilder uses `/robobuilder:<name>` namespace by default — global `/<name>` still works if you had it before. No collision.
 - **CLAUDE.md merge wrong**: revert with `/robobuilder:tune-claude-md --revert`.
 

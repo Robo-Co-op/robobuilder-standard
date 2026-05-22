@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+eval "$("$(dirname "$0")/robobuilder-slug")"
+state_root="${ROBOBUILDER_HOME:-$HOME/.robobuilder}"
+review_file="$state_root/projects/${SLUG:-unknown}/reviews.jsonl"
+
+echo "---HEAD---"
+git rev-parse --short HEAD 2>/dev/null || echo unknown
+echo "---REVIEWS---"
+if [ -s "$review_file" ]; then
+  cat "$review_file"
+else
+  echo "NO_REVIEWS"
+fi

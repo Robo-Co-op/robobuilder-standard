@@ -13,7 +13,7 @@ Polish & ship release. Same skill/agent/hook surface as v1.0; security and ergon
 - `scripts/tests/conftest.py` with shared fixtures (`run_script`, `tmp_memory_dir`); runtime-built attack strings so tests don't trip block_secrets when edited in-session
 - `scripts/pytest.ini` + `scripts/tests/README.md`
 - Test-fixture exemption for content scanning in `block_secrets.py` — paths under `tests/`, `__tests__/`, `fixtures/`, `*_test.py`, `conftest.py`, `*.spec.{ts,js,tsx,jsx}`, `*.test.{ts,js,tsx,jsx}` skip CONTENT scanning (file-name scanning still applies)
-- `GSTACK_REF=main + AUTO_YES=1` combination guard in `install_binaries.sh` — refuses to auto-confirm installs from moving branch tips
+- Legacy binary installer supply-chain guard in `install_binaries.sh` — refused to auto-confirm installs from moving branch tips before the installer was replaced by a no-op compatibility shim
 - `## Security-sensitive code` section in `CLAUDE.md.baseline`
 - Explicit precedence note in `settings.json.example` (deny → ask → allow, verified against docs)
 

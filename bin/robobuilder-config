@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+state_root="${ROBOBUILDER_HOME:-$HOME/.robobuilder}"
+config="$state_root/config"
+mkdir -p "$config"
+
+cmd="${1:-get}"
+key="${2:-}"
+value="${3:-}"
+
+case "$cmd" in
+  get)
+    [ -n "$key" ] && [ -f "$config/$key" ] && cat "$config/$key" || true
+    ;;
+  set)
+    [ -n "$key" ] || exit 1
+    printf '%s\n' "$value" > "$config/$key"
+    ;;
+esac

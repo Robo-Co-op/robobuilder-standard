@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+base="${1:-main}"
+files=$(git diff --name-only "$base"...HEAD 2>/dev/null || git diff --name-only "$base" 2>/dev/null || true)
+lines=$(git diff --shortstat "$base"...HEAD 2>/dev/null | sed -E 's/.* ([0-9]+) insertions?.*/\1/' || true)
+
+has() {
+  printf '%s\n' "$files" | grep -E "$1" >/dev/null 2>&1 && echo true || echo false
+}
+
+echo "DIFF_LINES=${lines:-0}"
+echo "SCOPE_FRONTEND=$(has '(^|/)(src|app|pages|components|styles|public)/|\\.(tsx|jsx|css|scss|html)$')"
+echo "SCOPE_BACKEND=$(has '(^|/)(api|server|backend|lib|db|migrations)/|\\.(go|rs|py|rb|java|kt|php)$')"
+echo "SCOPE_AUTH=$(has '(auth|session|oauth|jwt|login|permission|policy)')"
+echo "SCOPE_MIGRATIONS=$(has '(migration|migrations|schema|prisma)')"
+echo "SCOPE_API=$(has '(^|/)(api|routes|controllers)/|openapi|swagger')"

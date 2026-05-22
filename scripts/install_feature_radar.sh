@@ -1,13 +1,12 @@
 #!/usr/bin/env bash
-# install_feature_radar.sh — sets up the cc-feature-radar scheduled remote agent.
+# install_feature_radar.sh — sets up the robobuilder feature radar routine.
 #
 # This agent runs daily at 09:00 JST, checks:
 #   - anthropics/claude-code releases
 #   - claude-plugins-official catalog updates
 #   - openai/codex-plugin-cc updates
-#   - garrytan/gstack updates
 #   - mattpocock/ai-engineering-skills updates
-# and appends findings to your nexus feature_radar.md.
+# and appends findings to a robobuilder-local feature_radar.md.
 #
 # Requires: Claude Code with the `schedule` skill enabled, or manual setup via your CC interface.
 #
@@ -17,10 +16,13 @@
 set -euo pipefail
 
 HOME_DIR="${HOME:-$USERPROFILE}"
-OUT="$HOME_DIR/.claude/plugins/robobuilder/feature_radar_routine.md"
+ROBOBUILDER_HOME="${ROBOBUILDER_HOME:-$HOME_DIR/.robobuilder}"
+OUT="$ROBOBUILDER_HOME/feature_radar_routine.md"
+
+mkdir -p "$ROBOBUILDER_HOME"
 
 cat > "$OUT" <<'EOF'
-# cc-feature-radar
+# robobuilder-feature-radar
 
 **Schedule:** Daily at 09:00 JST (cron: `0 0 * * *` UTC)
 
@@ -29,18 +31,17 @@ cat > "$OUT" <<'EOF'
 **Routine prompt:**
 
 ```
-You are cc-feature-radar. Run a daily scan and append findings to nexus.
+You are robobuilder-feature-radar. Run a daily scan and append findings to robobuilder-local memory.
 
 1. Check GitHub releases (use WebFetch or `gh release list -L 5`):
    - anthropics/claude-code
-   - garrytan/gstack
    - mattpocock/ai-engineering-skills
    - openai/codex (or codex-plugin-cc if used)
 
 2. Check Claude Code official changelog if reachable.
 
 3. For each new release since yesterday, write 1–3 bullets to:
-   $HOME/nexus/pc/memory/feature_radar.md
+   ${ROBOBUILDER_HOME:-$HOME/.robobuilder}/feature_radar.md
    under today's date heading.
 
 4. Each bullet format:
@@ -61,11 +62,11 @@ You are cc-feature-radar. Run a daily scan and append findings to nexus.
 
 **Verification:**
 
-After 24 hours, check `$HOME/nexus/pc/memory/feature_radar.md` for the first entry.
+After 24 hours, check `${ROBOBUILDER_HOME:-$HOME/.robobuilder}/feature_radar.md` for the first entry.
 
 **Pairing:**
 
-Weekly on Friday, run `/gstack:retro` or read `feature_radar.md` directly. For each promising feature, decide:
+Weekly on Friday, review `feature_radar.md` during robobuilder maintenance. For each promising feature, decide:
 - TRY → assign owner, schedule a try-it session
 - SKIP → record reason in `memory/feedback_*.md`
 - DEFER → leave on radar

@@ -38,7 +38,7 @@ On first install, run:
 /robobuilder:tune-claude-md     # personalize your CLAUDE.md with Robo Co-op best practices
 ```
 
-See `docs/INSTALL.md` for full setup including optional GStack binary compile (`browse`) and `cc-feature-radar` scheduled agent.
+See `docs/INSTALL.md` for full setup including the optional robobuilder feature radar routine.
 
 ## Quick reference
 

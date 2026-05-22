@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+state_root="${ROBOBUILDER_HOME:-$HOME/.robobuilder}"
+echo "ROBOBUILDER_STATE_ROOT=$state_root"

@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+root=$(git rev-parse --show-toplevel 2>/dev/null || pwd)
+slug=$(printf '%s' "$(basename "$root")" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9._-' '-')
+slug=${slug:-unknown}
+
+echo "SLUG=$slug"
