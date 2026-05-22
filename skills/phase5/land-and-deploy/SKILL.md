@@ -33,18 +33,7 @@ bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 
 ## RoboBuilder Runtime Notes
 
-RoboBuilder uses a lightweight local state directory when a workflow needs durable scratch data:
-
-```bash
-RB_HOME="${ROBOBUILDER_HOME:-$HOME/.robobuilder}"
-RB_SLUG=$(printf '%s' "$(basename "$(git rev-parse --show-toplevel 2>/dev/null || pwd)")" | tr '[:upper:]' '[:lower:]' | tr -cs 'a-z0-9._-' '-')
-RB_PROJECT="$RB_HOME/projects/${RB_SLUG:-unknown}"
-RB_BRANCH=$(git branch --show-current 2>/dev/null || echo unknown)
-mkdir -p "$RB_PROJECT"
-echo "ROBOBUILDER_HOME: $RB_HOME"
-echo "ROBOBUILDER_PROJECT: $RB_PROJECT"
-echo "BRANCH: $RB_BRANCH"
-```
+Use `bin/robobuilder-paths` and `bin/robobuilder-slug` for project state. Full contract: `docs/RUNTIME.md`.
 
 ## SETUP (run this check BEFORE any browse command)
 

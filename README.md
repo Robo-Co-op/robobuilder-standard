@@ -52,7 +52,7 @@ See `docs/INSTALL.md` for full setup including the optional robobuilder feature 
 | Ship it | `/robobuilder:ship` → `/robobuilder:land-and-deploy` → `/robobuilder:canary` |
 | End session | `/robobuilder:handoff` |
 
-Full chart: `docs/WORKFLOW.md`. Decision tree: `docs/DECISION_FLOW.md`.
+Full chart: `docs/WORKFLOW.md`. Decision tree: `docs/DECISION_FLOW.md`. Runtime helper contract: `docs/RUNTIME.md`.
 
 ## Living Knowledge Loop
 
