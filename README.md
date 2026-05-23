@@ -59,6 +59,10 @@ For Codex, use `--target "${CODEX_HOME:-$HOME/.codex}/skills"` instead.
 
 See `docs/OPENCLAW_CODEX.md`.
 
+### Claude Desktop
+
+See `docs/CLAUDE_DESKTOP.md` for MCP bridge setup, Projects-based usage, and feature comparison across all versions.
+
 ## Quick reference
 
 | Goal | Skill |
