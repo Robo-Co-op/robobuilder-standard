@@ -1,7 +1,8 @@
 ---
 name: tdd
-description: Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions "red-green-refactor", wants integration tests, or asks for test-first development.
+description: "[P3-2 Implement] Test-driven development with red-green-refactor loop. Use when user wants to build features or fix bugs using TDD, mentions \"red-green-refactor\", wants integration tests, or asks for test-first development."
 origin: matt-pocock
+upstream: https://github.com/mattpocock/skills
 bootcamp_module: M3.code.implement
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
@@ -10,7 +11,7 @@ bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:diagnose, /robobuilder:diff-review, /robobuilder:playbook-new-feature
 > - **Bootcamp**: M3.code.implement
-> - **Origin**: Matt Pocock (AI Engineering Skills, MIT)
+> - **Origin**: Matt Pocock (mattpocock/skills, MIT)
 
 
 # Test-Driven Development

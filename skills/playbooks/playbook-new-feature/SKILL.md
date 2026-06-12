@@ -1,6 +1,7 @@
 ---
 name: playbook-new-feature
-description: Orchestrates the full new-feature workflow by invoking robobuilder skills in sequence via the Skill tool. Steps grill-me → to-prd → to-issues → tdd (parallel via Agent teams) → diff-review → cross-review → grill → ship. Use this when a user wants to build a new feature end-to-end and asks for the full flow rather than piecing it together.
+description: "[PB-1] Orchestrates the full new-feature workflow by invoking robobuilder skills in sequence via the Skill tool. Steps grill-me → to-prd → to-issues → tdd (parallel via Agent teams) → diff-review → cross-review → grill → ship. Use this when a user wants to build a new feature end-to-end and asks for the full flow rather than piecing it together."
+origin: robobuilder
 ---
 
 # /robobuilder:playbook-new-feature
@@ -41,6 +42,8 @@ For each independent issue created in Step 3, recommend launching parallel agent
 - Heavy slices: offer `/codex:rescue`
 
 This step is NOT automated — recommend the agents to spawn, then wait for the user to merge results.
+
+After each slice merges, suggest `/robobuilder:blueprint-sync` — if the implementation diverged from the PRD/design while building, update the blueprint while the context is fresh.
 
 ### Step 5 — Daily diff review
 Confirm: "Run /diff-review on the merged slices? (y/n)"

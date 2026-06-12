@@ -23,12 +23,12 @@ Legend: 🟢 Matt Pocock  🟠 GStack  🔵 Jin Custom  🟣 robobuilder-origina
 ┌─────────────────────────────────────────────────────────────┐
 │  Phase 1: Design                                              │
 ├─────────────────────────────────────────────────────────────┤
-│  🟢 /robobuilder:grill-me        (YC office-hours merged)    │
-│  🔵 /robobuilder:design-an-interface                         │
+│  🟢 /robobuilder:grill-me        (decision-tree interview)   │
 │  🟢 /robobuilder:grill-with-docs                             │
+│  🔵 /robobuilder:design-an-interface                         │
+│  💡🟠 /robobuilder:plan-eng-review                           │
 │  🟢 /robobuilder:to-prd                                      │
 │  🟢 /robobuilder:to-issues                                   │
-│  💡🟠 /robobuilder:plan-eng-review                           │
 └─────────────────────────────────────────────────────────────┘
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -49,6 +49,9 @@ Legend: 🟢 Matt Pocock  🟠 GStack  🔵 Jin Custom  🟣 robobuilder-origina
 │  Agent teams (parallel TDD per slice):                        │
 │  • Agent (worktree isolation)                                │
 │  • /codex:rescue (heavy slices to OpenAI Codex)              │
+│                                                              │
+│  After each slice: 🟣 /robobuilder:blueprint-sync             │
+│  (update PRD/DESIGN/ADR if the implementation diverged)      │
 └─────────────────────────────────────────────────────────────┘
                             ↓
 ┌─────────────────────────────────────────────────────────────┐
@@ -79,6 +82,7 @@ Legend: 🟢 Matt Pocock  🟠 GStack  🔵 Jin Custom  🟣 robobuilder-origina
 
 Cross-cutting utilities (any phase):
   🟠 /robobuilder:guard           — careful + freeze combined
+  🟣 /robobuilder:blueprint-sync  — keep design docs in sync with reality
   🟠 /robobuilder:context-save / context-restore
   🔵 /robobuilder:btw             — quick one-shot question
   🔵 /robobuilder:export          — flatten codebase for sharing

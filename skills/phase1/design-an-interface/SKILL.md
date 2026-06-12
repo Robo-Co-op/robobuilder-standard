@@ -1,6 +1,6 @@
 ---
 name: design-an-interface
-description: Generate multiple radically different interface designs for a module using parallel sub-agents. Use when user wants to design an API, explore interface options, compare module shapes, or mentions "design it twice".
+description: "[P1-3 Design] Generate multiple radically different interface designs for a module using parallel sub-agents. Use when user wants to design an API, explore interface options, compare module shapes, or mentions \"design it twice\"."
 origin: jin-custom
 bootcamp_module: M3.code.design
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504

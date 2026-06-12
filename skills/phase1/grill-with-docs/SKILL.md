@@ -1,7 +1,8 @@
 ---
 name: grill-with-docs
-description: Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise. Use when user wants to stress-test a plan against their project's language and documented decisions.
+description: "[P1-2 Design] Grilling session that challenges your plan against the existing domain model, sharpens terminology, and updates documentation (CONTEXT.md, ADRs) inline as decisions crystallise. Use when user wants to stress-test a plan against their project's language and documented decisions."
 origin: matt-pocock
+upstream: https://github.com/mattpocock/skills
 bootcamp_module: M3.code.design
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
@@ -10,7 +11,7 @@ bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:to-prd, /robobuilder:to-issues
 > - **Bootcamp**: M3.code.design
-> - **Origin**: Matt Pocock (AI Engineering Skills, MIT)
+> - **Origin**: Matt Pocock (mattpocock/skills, MIT)
 
 
 <what-to-do>

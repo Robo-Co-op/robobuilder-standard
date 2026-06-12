@@ -1,7 +1,8 @@
 ---
 name: to-issues
-description: Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work into issues.
+description: "[P1-6 Design] Break a plan, spec, or PRD into independently-grabbable issues on the project issue tracker using tracer-bullet vertical slices. Use when user wants to convert a plan into issues, create implementation tickets, or break down work into issues."
 origin: matt-pocock
+upstream: https://github.com/mattpocock/skills
 bootcamp_module: M3.code.design
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
@@ -10,14 +11,14 @@ bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:to-prd, /robobuilder:tdd
 > - **Bootcamp**: M3.code.design
-> - **Origin**: Matt Pocock (AI Engineering Skills, MIT)
+> - **Origin**: Matt Pocock (mattpocock/skills, MIT)
 
 
 # To Issues
 
 Break a plan into independently-grabbable issues using vertical slices (tracer bullets).
 
-The issue tracker and triage label vocabulary should have been provided to you — run `/setup-matt-pocock-skills` if not.
+The issue tracker and triage label vocabulary should have been provided to you — run `/robobuilder:setup` if not.
 
 ## Process
 

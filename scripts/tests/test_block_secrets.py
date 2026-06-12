@@ -1,12 +1,12 @@
 """
-block_secrets.py のテスト。
+Tests for block_secrets.py.
 
-設計方針:
-- block_secrets.py の main() は sys.stdin / sys.exit に依存するため、
-  内部関数 path_matches_secret / content_has_secret / main を直接 import して検証。
-- subprocess で CLI を叩くテストは "exit code" 確認のみに使い、
-  stdin をモックする代わりに実プロセスに JSON を渡す（境界テスト）。
-- sys.stdin / sys.exit は test_main_* でのみ mock する（境界のみ）。
+Design notes:
+- block_secrets.py's main() depends on sys.stdin / sys.exit, so we
+    import and test the internal functions path_matches_secret / content_has_secret / main directly.
+- Subprocess CLI tests only assert on the exit code,
+    passing JSON to a real process instead of mocking stdin (boundary tests).
+- sys.stdin / sys.exit are mocked only in test_main_* (boundary only).
 """
 from __future__ import annotations
 
@@ -20,7 +20,7 @@ from unittest.mock import patch
 
 import pytest
 
-# スクリプトを直接 import（インストール不要）
+# Import the script directly (no install needed)
 _SCRIPT = Path(__file__).parent.parent / "block_secrets.py"
 spec = importlib.util.spec_from_file_location("block_secrets", _SCRIPT)
 bs = importlib.util.module_from_spec(spec)
@@ -30,7 +30,7 @@ spec.loader.exec_module(bs)
 # ── path_matches_secret ──────────────────────────────────────────────────────
 
 class TestPathMatchesSecret:
-    # .env 系
+    # .env family
     def test_dotenv_exact(self):
         assert bs.path_matches_secret("/project/.env") is not None
 
@@ -56,7 +56,7 @@ class TestPathMatchesSecret:
     def test_secret_singular(self):
         assert bs.path_matches_secret("/vault/secret") is not None
 
-    # 鍵ファイル拡張子
+    # Key-file extensions
     def test_pem(self):
         assert bs.path_matches_secret("/certs/server.pem") is not None
 
@@ -100,7 +100,7 @@ class TestPathMatchesSecret:
     def test_gcloud_json(self):
         assert bs.path_matches_secret("/home/user/gcloud/service-account.json") is not None
 
-    # Windows バックスラッシュ → フォワードスラッシュ変換
+    # Windows backslash -> forward slash conversion
     def test_windows_backslash_env(self):
         assert bs.path_matches_secret(r"C:\project\.env") is not None
 
@@ -110,7 +110,7 @@ class TestPathMatchesSecret:
     def test_windows_backslash_credentials(self):
         assert bs.path_matches_secret(r"C:\Users\jin\.aws\credentials") is not None
 
-    # 非シークレットは None
+    # Non-secrets return None
     def test_normal_py(self):
         assert bs.path_matches_secret("/app/main.py") is None
 
@@ -121,12 +121,12 @@ class TestPathMatchesSecret:
         assert bs.path_matches_secret("/project/README.md") is None
 
     def test_env_in_dirname_only(self):
-        # ディレクトリ名に .env が含まれているだけのケース（ファイル名が一致しない）
-        # .env/ という名前のディレクトリ以下のファイルはパターン外
+        # Cases where only a directory name contains .env (file name doesn't match)
+        # Files under a directory named .env/ are outside the pattern
         assert bs.path_matches_secret("/project/env_config/settings.py") is None
 
     def test_dotenv_prefix_false_positive(self):
-        # 「environment.py」は弾かない
+        # "environment.py" must not be blocked
         assert bs.path_matches_secret("/app/environment.py") is None
 
 
@@ -167,7 +167,7 @@ class TestContentHasSecret:
         content = "some preamble\nAKIAIOSFODNN7EXAMPLE\nsome postamble"
         assert bs.content_has_secret(content) is not None
 
-    # 非シークレット
+    # Non-secrets
     def test_empty_string(self):
         assert bs.content_has_secret("") is None
 
@@ -176,14 +176,14 @@ class TestContentHasSecret:
         assert bs.content_has_secret(code) is None
 
     def test_short_sk_prefix(self):
-        # sk- の後が 19 文字以下はマッチしない
+        # 19 or fewer chars after sk- must not match
         assert bs.content_has_secret("sk-short") is None
 
 
-# ── main() — ツール振り分け ───────────────────────────────────────────────────
+# -- main() — tool dispatch --------------------------------------------------
 
 def _run_main(payload: dict) -> tuple[int, str]:
-    """main() を呼んで (exit_code, stderr_text) を返す。"""
+    """Call main() and return (exit_code, stderr_text)."""
     stdin_text = json.dumps(payload)
     stderr_buf = StringIO()
     with patch.object(sys, "stdin", StringIO(stdin_text)), \
@@ -196,7 +196,7 @@ def _run_main(payload: dict) -> tuple[int, str]:
 
 
 class TestMain:
-    # ハッピーパス: 無害なファイル・ツール
+    # Happy path: harmless files / tools
     def test_ignore_read_tool(self):
         code, _ = _run_main({"tool_name": "Read", "tool_input": {"file_path": "/app/.env"}})
         assert code == 0
@@ -213,7 +213,7 @@ class TestMain:
         code, _ = _run_main({"tool_name": "Write", "tool_input": {"file_path": "/app/readme.md", "content": "hello"}})
         assert code == 0
 
-    # ブロック: ファイルパス
+    # Block: file path
     def test_edit_dotenv_blocked(self):
         code, stderr = _run_main({"tool_name": "Edit", "tool_input": {"file_path": "/project/.env"}})
         assert code == 2
@@ -227,7 +227,7 @@ class TestMain:
         code, _ = _run_main({"tool_name": "MultiEdit", "tool_input": {"file_path": "/certs/key.pem"}})
         assert code == 2
 
-    # ブロック: コンテンツ
+    # Block: content
     def test_write_with_aws_key_blocked(self):
         code, stderr = _run_main({
             "tool_name": "Write",
@@ -243,12 +243,12 @@ class TestMain:
         })
         assert code == 2
 
-    # 代替キー名: "tool" / "params"
+    # Alternate key names: "tool" / "params"
     def test_alt_key_tool_and_params(self):
         code, _ = _run_main({"tool": "Edit", "params": {"file_path": "/project/.env"}})
         assert code == 2
 
-    # 不正 JSON → ブロックしない（exit 0）
+    # Malformed JSON -> do not block (exit 0)
     def test_malformed_json_passes(self):
         stderr_buf = StringIO()
         with patch.object(sys, "stdin", StringIO("{not valid json")), \
@@ -259,7 +259,7 @@ class TestMain:
                 code = int(e.code)
         assert code == 0
 
-    # 空 stdin → ブロックしない
+    # Empty stdin -> do not block
     def test_empty_stdin_passes(self):
         stderr_buf = StringIO()
         with patch.object(sys, "stdin", StringIO("")), \
@@ -270,7 +270,7 @@ class TestMain:
                 code = int(e.code)
         assert code == 0
 
-    # file_path がない場合でもコンテンツ検査は走る
+    # Content scanning still runs when file_path is absent
     def test_no_path_but_secret_content_blocked(self):
         code, _ = _run_main({
             "tool_name": "Write",
@@ -278,18 +278,18 @@ class TestMain:
         })
         assert code == 2
 
-    # file_path もコンテンツも問題なし
+    # Neither file_path nor content has issues
     def test_no_path_no_secret_passes(self):
         code, _ = _run_main({"tool_name": "Write", "tool_input": {"content": "hello world"}})
         assert code == 0
 
 
-# ── CLI 境界テスト（実プロセス） ─────────────────────────────────────────────
+# -- CLI boundary tests (real process) ---------------------------------------
 
 class TestCLI:
     """
-    サブプロセスで block_secrets.py を直接起動し、
-    exit code だけを確認する（最も外側の境界）。
+    Launch block_secrets.py directly in a subprocess and
+    assert only on the exit code (the outermost boundary).
     """
 
     def _invoke(self, payload: dict) -> subprocess.CompletedProcess:

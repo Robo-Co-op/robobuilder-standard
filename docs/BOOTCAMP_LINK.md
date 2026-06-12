@@ -35,7 +35,7 @@ bootcamp_url: https://www.notion.so/<page-id>
 
 When a user is mid-flow and wants the *why* behind a skill, they click that URL.
 
-> Status in v1.0: frontmatter scaffolding present in meta + playbook skills. The 33 ingested skills will be backfilled progressively.
+> Status in v1.0: frontmatter scaffolding present in meta + playbook skills. The 33 ingested skills (of 41 total) will be backfilled progressively.
 
 ## Direction B: Notion → skill (manual at v1.0)
 

@@ -3,7 +3,7 @@ name: learn
 preamble-tier: 2
 version: 1.0.0
 description: |
-  Manage project learnings. Review, search, prune, and export what gstack
+  [P3-5 Implement] Manage project learnings. Review, search, prune, and export what gstack
   has learned across sessions. Use when asked to "what have we learned",
   "show learnings", "prune stale learnings", or "export learnings".
   Proactively suggest when the user asks about past patterns or wonders
@@ -21,6 +21,7 @@ allowed-tools:
   - Glob
   - Grep
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M3.code.implement
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

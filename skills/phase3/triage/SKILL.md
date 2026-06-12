@@ -1,7 +1,8 @@
 ---
 name: triage
-description: Triage issues through a state machine driven by triage roles. Use when user wants to create an issue, triage issues, review incoming bugs or feature requests, prepare issues for an AFK agent, or manage issue workflow.
+description: "[P3-1 Implement] Triage issues through a state machine driven by triage roles. Use when user wants to create an issue, triage issues, review incoming bugs or feature requests, prepare issues for an AFK agent, or manage issue workflow."
 origin: matt-pocock
+upstream: https://github.com/mattpocock/skills
 bootcamp_module: M3.code.implement
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
@@ -10,7 +11,7 @@ bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:to-issues, /robobuilder:tdd
 > - **Bootcamp**: M3.code.implement
-> - **Origin**: Matt Pocock (AI Engineering Skills, MIT)
+> - **Origin**: Matt Pocock (mattpocock/skills, MIT)
 
 
 # Triage
@@ -45,7 +46,7 @@ Five **state** roles:
 
 Every triaged issue should carry exactly one category role and one state role. If state roles conflict, flag it and ask the maintainer before doing anything else.
 
-These are canonical role names — the actual label strings used in the issue tracker may differ. The mapping should have been provided to you - run `/setup-matt-pocock-skills` if not.
+These are canonical role names — the actual label strings used in the issue tracker may differ. The mapping should have been provided to you - run `/robobuilder:setup` if not.
 
 State transitions: an unlabeled issue normally goes to `needs-triage` first; from there it moves to `needs-info`, `ready-for-agent`, `ready-for-human`, or `wontfix`. `needs-info` returns to `needs-triage` once the reporter replies. The maintainer can override at any time — flag transitions that look unusual and ask before proceeding.
 

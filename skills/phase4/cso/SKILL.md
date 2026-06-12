@@ -3,7 +3,7 @@ name: cso
 preamble-tier: 2
 version: 2.0.0
 description: |
-  Chief Security Officer mode. Infrastructure-first security audit: secrets archaeology,
+  [P4-4 Review] Chief Security Officer mode. Infrastructure-first security audit: secrets archaeology,
   dependency supply chain, CI/CD pipeline security, LLM/AI security, skill supply chain
   scanning, plus OWASP Top 10, STRIDE threat modeling, and active verification.
   Two modes: daily (zero-noise, 8/10 confidence gate) and comprehensive (monthly deep
@@ -24,6 +24,7 @@ triggers:
   - check for vulnerabilities
   - owasp review
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M3.code.review
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

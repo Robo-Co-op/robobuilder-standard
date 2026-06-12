@@ -1,7 +1,8 @@
 ---
 name: prototype
-description: Build a throwaway prototype to flush out a design before committing to it. Routes between two branches — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route. Use when the user wants to prototype, sanity-check a data model or state machine, mock up a UI, explore design options, or says "prototype this", "let me play with it", "try a few designs".
+description: "[P2-1 Prototype] Build a throwaway prototype to flush out a design before committing to it. Routes between two branches — a runnable terminal app for state/business-logic questions, or several radically different UI variations toggleable from one route. Use when the user wants to prototype, sanity-check a data model or state machine, mock up a UI, explore design options, or says \"prototype this\", \"let me play with it\", \"try a few designs\"."
 origin: matt-pocock
+upstream: https://github.com/mattpocock/skills
 bootcamp_module: M3.code.prototype
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
@@ -10,7 +11,7 @@ bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:grill-me, /robobuilder:tdd
 > - **Bootcamp**: M3.code.prototype
-> - **Origin**: Matt Pocock (AI Engineering Skills, MIT)
+> - **Origin**: Matt Pocock (mattpocock/skills, MIT)
 
 
 # Prototype

@@ -3,7 +3,7 @@ name: ship
 preamble-tier: 4
 version: 1.0.0
 description: |
-  Ship workflow: detect + merge base branch, run tests, review diff, bump VERSION,
+  [P5-1 Ship] Ship workflow: detect + merge base branch, run tests, review diff, bump VERSION,
   update CHANGELOG, commit, push, create PR. Use when asked to "ship", "deploy",
   "push to main", "create a PR", "merge and push", or "get it deployed".
   Proactively invoke this skill (do NOT push/PR directly) when the user says code
@@ -24,6 +24,7 @@ triggers:
   - push to main
   - deploy this
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M3.code.ship
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

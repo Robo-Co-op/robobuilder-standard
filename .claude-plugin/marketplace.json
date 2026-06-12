@@ -11,7 +11,7 @@
     {
       "name": "robobuilder",
       "source": "./",
-      "description": "Robo Co-op standard dev plugin — 33 skills, 9 phase-specific agents, 3 playbooks, harness config, bidirectional Notion learning loop.",
+      "description": "Robo Co-op standard dev plugin — 41 skills, 9 phase-specific agents, 3 playbooks, harness config, bidirectional Notion learning loop.",
       "version": "1.0.0",
       "category": "development",
       "tags": ["robo-co-op", "workflow", "tdd", "bootcamp", "compounding-engineering"],

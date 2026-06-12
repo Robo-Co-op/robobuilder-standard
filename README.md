@@ -3,7 +3,7 @@
 **Robo Co-op standard Claude Code dev plugin.**
 
 One install gives every team member:
-- 33 curated dev skills across 6 phases (Investigate → Design → Prototype → Implement → Refactor → Review → Ship)
+- 41 curated dev skills across 6 phases (Investigate → Design → Prototype → Implement → Refactor → Review → Ship)
 - 9 phase-specific subagents
 - 3 multi-skill playbooks
 - An onboarding wizard, a CLAUDE.md tuning wizard, and a semver upgrade flow
@@ -54,6 +54,24 @@ See `docs/INSTALL.md` for full setup including optional GStack binary compile (`
 
 Full chart: `docs/WORKFLOW.md`. Decision tree: `docs/DECISION_FLOW.md`.
 
+## All 41 skills, in workflow order
+
+Every skill description starts with a phase tag (e.g. `[P1-1 Design]`) so the alphabetical `/plugin` list still reads in workflow order. Within each phase, skills are ordered by practical usage order and frequency.
+
+| Phase | Skills (in order) |
+|---|---|
+| Meta | `start` → `tune-claude-md` → `upgrade` → `install-companions` |
+| P0 Foundation | `setup` → `ubiquitous-language` |
+| P0.5 Investigate | `zoom-out` → `diagnose` → `health` |
+| P1 Design | `grill-me` → `grill-with-docs` → `design-an-interface` → `plan-eng-review` → `to-prd` → `to-issues` |
+| P2 Prototype | `prototype` |
+| P3 Implement | `triage` → `tdd` → `caveman` → `browse` → `learn` |
+| P3.5 Refactor | `improve-codebase-architecture` → `request-refactor-plan` |
+| P4 Review | `diff-review` → `cross-review` → `grill` → `cso` |
+| P5 Ship | `ship` → `land-and-deploy` → `canary` → `handoff` → `write-a-skill` |
+| Utilities | `guard` → `blueprint-sync` → `context-save` → `context-restore` → `btw` → `export` |
+| Playbooks | `playbook-new-feature` → `playbook-bug-fix` → `playbook-review-deep` |
+
 ## Living Knowledge Loop
 
 robobuilder skills link bidirectionally to the Bootcamp v3 Notion hub:
@@ -68,8 +86,8 @@ Updating Notion best-practice content immediately improves CC usage quality acro
 
 ## Attribution
 
-- 🟢 Matt Pocock — AI Engineering Skills (MIT)
-- 🟠 Garry Tan — GStack (MIT)
+- 🟢 Matt Pocock — [mattpocock/skills](https://github.com/mattpocock/skills) (MIT)
+- 🟠 Garry Tan — [garrytan/gstack](https://github.com/garrytan/gstack) (MIT)
 - 🔵 Jin Kim — Robo Co-op custom skills
 
 Full license in `LICENSE`.

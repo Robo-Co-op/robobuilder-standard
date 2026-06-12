@@ -1,8 +1,8 @@
 ---
 name: cross-review
-description: "AIクロスレビュー - 4視点で並列レビューし、指摘ゼロになるまでラウンドを回す。重要なマージ前にだけ使う（コスト高い）"
+description: "[P4-2 Review] AI cross-review — multi-round parallel review with 4 perspectives that keeps iterating until zero findings (0 critical + 0 medium for 2 consecutive rounds, max 5 rounds). Expensive; use only before important merges"
 user-invocable: true
-argument-hint: "[対象ブランチ/コミット範囲]"
+argument-hint: "[target branch/commit range]"
 allowed-tools:
   - Read
   - Glob
@@ -14,54 +14,54 @@ bootcamp_module: M3.code.review
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
 > **robobuilder pedagogy** (phase4)
-> - **What**: AIクロスレビュー - 4視点で並列レビューし、指摘ゼロになるまでラウンドを回す。重要なマージ前にだけ使う（コスト高い）
+> - **What**: Multi-round parallel review with 4 perspectives — iterate fix-and-review rounds until zero findings.
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:diff-review, /robobuilder:grill
 > - **Bootcamp**: M3.code.review
 > - **Origin**: Robo Co-op (Jin Kim)
 
 
-# /cross-review - 多視点ラウンドレビュー
+# /cross-review — Multi-Round Multi-Perspective Review
 
-`/diff-review` の強化版。**指摘ゼロになるまでラウンドを回す**のが特徴。
+The heavyweight version of `/diff-review`. Its defining trait: **keep running rounds until there are zero findings**.
 
-## 手順
+## Steps
 
-### Round 0: 状況把握
+### Round 0: Situation check
 - `git diff main...HEAD --stat`
-- 対象ファイル一覧と規模を確認
+- Confirm the list of affected files and the scale of the change
 
-### Round 1〜N: 並列レビュー → 修正 → 再レビュー
-各ラウンドで以下のサブエージェントを**並列**で呼ぶ:
-1. `code-simplifier` - 冗長・抽象化・命名
-2. `test-writer` - テスト不足
-3. `security-auditor` - OWASP
-4. （任意）`e2e-tester` - UI機能の場合のみ
+### Rounds 1–N: Parallel review → fix → re-review
+In each round, invoke the following subagents **in parallel**:
+1. `code-simplifier` — redundancy, abstraction, naming
+2. `test-writer` — missing tests
+3. `security-auditor` — OWASP
+4. (optional) `e2e-tester` — only for UI features
 
-各エージェントの出力を集約し:
-- **致命** → 即修正してから次ラウンド
-- **中** → 修正してから次ラウンド
-- **軽微** → このラウンドで記録、最終判定で持ち越し可
+Aggregate the agents' outputs:
+- **Critical** → fix immediately, then start the next round
+- **Medium** → fix, then start the next round
+- **Minor** → record this round; may carry over to the final verdict
 
-### 終了条件
-- 致命 0 件 かつ 中 0 件 を**2ラウンド連続**で満たす
-- または最大5ラウンドで打ち切り（それ以上回しても発散する）
+### Exit condition
+- 0 critical AND 0 medium findings for **2 consecutive rounds**
+- Or cut off at a maximum of 5 rounds (beyond that it diverges)
 
-## 出力（最終ラウンド後）
+## Output (after the final round)
 ```
-## 総ラウンド数: N
-## 検出指摘の総数: X件
-- 致命: A件 → 全て解消
-- 中: B件 → 全て解消
-- 軽微: C件 → 残置（リスト）
-## 最終判定: SHIP / FIX FIRST
-## 学び
-- 今回繰り返した失敗パターン（次回に活かす）
+## Total rounds: N
+## Total findings: X
+- Critical: A → all resolved
+- Medium: B → all resolved
+- Minor: C → left as-is (list)
+## Final verdict: SHIP / FIX FIRST
+## Learnings
+- Failure patterns repeated this time (apply next time)
 ```
 
-## 注意
-- ラウンド数や指摘数を**KPIにしない**。少ないほど良い
-- 同じ指摘が3ラウンド以上続いたら、レビュアー側のfalse positiveを疑う
-- このスキルはコスト高い。重要なマージ前にだけ使う
+## Notes
+- Do **not** treat round count or finding count as KPIs. Fewer is better
+- If the same finding persists for 3+ rounds, suspect a reviewer-side false positive
+- This skill is expensive. Use it only before important merges
 
 $ARGUMENTS

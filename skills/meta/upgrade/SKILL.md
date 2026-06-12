@@ -1,6 +1,7 @@
 ---
 name: upgrade
-description: Semver-aware upgrade of robobuilder. Pulls latest from the official repo, shows a diff preview of skills/agents/hooks that changed, prompts for approval per change, then applies. Re-runs tune-claude-md if baseline updated. Use when user invokes /robobuilder:upgrade or when they ask "is robobuilder up to date?".
+description: "[Meta-3] Semver-aware upgrade of robobuilder. Pulls latest from the official repo, shows a diff preview of skills/agents/hooks that changed, prompts for approval per change, then applies. Re-runs tune-claude-md if baseline updated. Use when user invokes /robobuilder:upgrade or when they ask \"is robobuilder up to date?\"."
+origin: robobuilder
 ---
 
 # /robobuilder:upgrade

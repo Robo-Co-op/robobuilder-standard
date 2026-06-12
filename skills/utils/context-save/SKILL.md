@@ -3,7 +3,7 @@ name: context-save
 preamble-tier: 2
 version: 1.0.0
 description: |
-  Save working context. Captures git state, decisions made, and remaining work
+  [Util-3] Save working context. Captures git state, decisions made, and remaining work
   so any future session can pick up without losing a beat.
   Use when asked to "save progress", "save state", "context save", or
   "save my work". Pair with /context-restore to resume later.
@@ -23,6 +23,7 @@ triggers:
   - save my work
   - context save
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M6.compounding-engineering
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

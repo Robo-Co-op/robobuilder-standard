@@ -4,7 +4,7 @@ preamble-tier: 3
 interactive: true
 version: 1.0.0
 description: |
-  Eng manager-mode plan review. Lock in the execution plan — architecture,
+  [P1-4 Design] Eng manager-mode plan review. Lock in the execution plan — architecture,
   data flow, diagrams, edge cases, test coverage, performance. Walks through
   issues interactively with opinionated recommendations. Use when asked to
   "review the architecture", "engineering review", or "lock in the plan".
@@ -25,6 +25,7 @@ triggers:
   - eng plan review
   - check the implementation plan
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M3.code.design
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

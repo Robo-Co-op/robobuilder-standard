@@ -6,7 +6,7 @@
 #   - claude-plugins-official catalog updates
 #   - openai/codex-plugin-cc updates
 #   - garrytan/gstack updates
-#   - mattpocock/ai-engineering-skills updates
+#   - mattpocock/skills updates
 # and appends findings to your nexus feature_radar.md.
 #
 # Requires: Claude Code with the `schedule` skill enabled, or manual setup via your CC interface.
@@ -34,7 +34,7 @@ You are cc-feature-radar. Run a daily scan and append findings to nexus.
 1. Check GitHub releases (use WebFetch or `gh release list -L 5`):
    - anthropics/claude-code
    - garrytan/gstack
-   - mattpocock/ai-engineering-skills
+   - mattpocock/skills
    - openai/codex (or codex-plugin-cc if used)
 
 2. Check Claude Code official changelog if reachable.

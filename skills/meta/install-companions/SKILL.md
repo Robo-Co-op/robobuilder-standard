@@ -1,6 +1,7 @@
 ---
 name: install-companions
-description: Install a curated set of Anthropic official skill packs alongside robobuilder, by role. Presets defined in company.yaml. Use when user invokes /robobuilder:install-companions or asks "what skills should I install on top of robobuilder?".
+description: "[Meta-4] Install a curated set of Anthropic official skill packs alongside robobuilder, by role. Presets defined in company.yaml. Use when user invokes /robobuilder:install-companions or asks \"what skills should I install on top of robobuilder?\"."
+origin: robobuilder
 ---
 
 # /robobuilder:install-companions

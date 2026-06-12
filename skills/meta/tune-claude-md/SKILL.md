@@ -1,6 +1,7 @@
 ---
 name: tune-claude-md
-description: Personalize the user's ~/.claude/CLAUDE.md by intelligently merging it with the Robo Co-op best-practice baseline. Classifies each baseline section as UPGRADE / KEEP / ADD, prompts for confirmation, backs up the original, and applies. Use when user invokes /robobuilder:tune-claude-md, after plugin install, or after plugin upgrade.
+description: "[Meta-2] Personalize the user's ~/.claude/CLAUDE.md by intelligently merging it with the Robo Co-op best-practice baseline. Classifies each baseline section as UPGRADE / KEEP / ADD, prompts for confirmation, backs up the original, and applies. Use when user invokes /robobuilder:tune-claude-md, after plugin install, or after plugin upgrade."
+origin: robobuilder
 ---
 
 # /robobuilder:tune-claude-md

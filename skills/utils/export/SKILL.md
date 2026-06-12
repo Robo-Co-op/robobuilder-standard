@@ -1,8 +1,8 @@
 ---
 name: export
-description: "現リポジトリの全ソースコードを1ファイルに連結出力。claude.ai Deep Research 用"
+description: "[Util-6] Concatenate the entire repository's source code into a single file, for uploading to claude.ai Deep Research or sharing externally"
 user-invocable: true
-argument-hint: "[追加除外パターン]"
+argument-hint: "[additional exclude patterns]"
 allowed-tools:
   - Bash
   - Glob
@@ -11,32 +11,32 @@ bootcamp_module: M6.compounding-engineering
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
 > **robobuilder pedagogy** (utils)
-> - **What**: 現リポジトリの全ソースコードを1ファイルに連結出力。claude.ai Deep Research 用
+> - **What**: Concatenate the entire repository's source code into one file for claude.ai Deep Research.
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:handoff
 > - **Bootcamp**: M6.compounding-engineering
 > - **Origin**: Robo Co-op (Jin Kim)
 
 
-# /export - コードベース連結出力
+# /export — Concatenated Codebase Export
 
-現在のリポジトリの全ソースコードを1つのテキストに連結して出力してください。
+Concatenate all source code in the current repository into a single text file.
 
-## ルール
-- `node_modules/`, `.git/`, `.next/`, `dist/`, `build/`, `.turbo/` は除外
-- `*.lock`, `package-lock.json` は除外
-- 画像・バイナリ（`*.png`, `*.jpg`, `*.jpeg`, `*.ico`, `*.svg`, `*.gif`, `*.webp`, `*.woff*`, `*.ttf`, `*.eot`）は除外
-- 各ファイルは以下の形式で出力:
-
-```
-========== {ファイルパス} ==========
-{ファイル内容}
+## Rules
+- Exclude `node_modules/`, `.git/`, `.next/`, `dist/`, `build/`, `.turbo/`
+- Exclude `*.lock`, `package-lock.json`
+- Exclude images/binaries (`*.png`, `*.jpg`, `*.jpeg`, `*.ico`, `*.svg`, `*.gif`, `*.webp`, `*.woff*`, `*.ttf`, `*.eot`)
+- Output each file in this format:
 
 ```
+========== {file path} ==========
+{file contents}
 
-## 手順
+```
 
-以下のコマンドを実行して出力をファイルに保存し、ファイルパスをユーザーに伝えてください:
+## Steps
+
+Run the following command to save the output to a file, then tell the user the file path:
 
 ```bash
 find . -type f \
@@ -67,9 +67,9 @@ find . -type f \
   done > /tmp/export-$(basename $(pwd))-$(date +%Y%m%d-%H%M%S).txt
 ```
 
-コマンド実行後:
-1. 出力ファイルのパスとサイズを表示
-2. 含まれたファイル数を表示
-3. 「このファイルをclaude.aiにアップロードするとDeep Researchが可能です」と案内
+After running the command:
+1. Show the output file path and size
+2. Show the number of files included
+3. Tell the user: "Upload this file to claude.ai to enable Deep Research over the codebase"
 
 $ARGUMENTS

@@ -1,6 +1,7 @@
 ---
 name: playbook-bug-fix
-description: Orchestrates a clean bug-fix workflow by invoking robobuilder skills in sequence. Steps diagnose → tdd → diff-review → ship. Use when user reports a bug and wants the guided fix flow rather than piecing it together.
+description: "[PB-2] Orchestrates a clean bug-fix workflow by invoking robobuilder skills in sequence. Steps diagnose → tdd → diff-review → ship. Use when user reports a bug and wants the guided fix flow rather than piecing it together."
+origin: robobuilder
 ---
 
 # /robobuilder:playbook-bug-fix

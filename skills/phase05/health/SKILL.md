@@ -3,7 +3,7 @@ name: health
 preamble-tier: 2
 version: 1.0.0
 description: |
-  Code quality dashboard. Wraps existing project tools (type checker, linter,
+  [P0.5-3 Investigate] Code quality dashboard. Wraps existing project tools (type checker, linter,
   test runner, dead code detector, shell linter), computes a weighted composite
   0-10 score, and tracks trends over time. Use when: "health check",
   "code quality", "how healthy is the codebase", "run all checks",
@@ -21,6 +21,7 @@ allowed-tools:
   - Grep
   - AskUserQuestion
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M3.code.investigate
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

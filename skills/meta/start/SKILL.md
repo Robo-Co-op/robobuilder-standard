@@ -1,6 +1,7 @@
 ---
 name: start
-description: Onboarding wizard for first-time robobuilder users. Asks about role, experience level, and current task, then suggests the right starting skills. Use this when a user invokes /robobuilder:start, when they ask "how do I use this plugin?", or when they seem lost in the skill catalog.
+description: "[Meta-1] Onboarding wizard for first-time robobuilder users. Asks about role, experience level, and current task, then suggests the right starting skills. Use this when a user invokes /robobuilder:start, when they ask \"how do I use this plugin?\", or when they seem lost in the skill catalog."
+origin: robobuilder
 ---
 
 # /robobuilder:start
@@ -16,7 +17,7 @@ Interactive onboarding that turns the 33-skill catalog into a personalized 3-ski
 Do NOT use this when the user already knows what skill they want — that wastes their time.
 
 ## Why
-33 skills is overwhelming without guidance. Without a router, users either pick the wrong skill or default to plain chat. Compounding Engineering only works if the right skill fires in the right moment.
+41 skills is overwhelming without guidance. Without a router, users either pick the wrong skill or default to plain chat. Compounding Engineering only works if the right skill fires in the right moment.
 
 ## How
 
@@ -105,7 +106,7 @@ Claude: Bug-fix scenario. Try this:
 ```
 
 ## Anti-pattern
-Don't dump all 33 skills as a list. Don't ask 10 questions — 3 is the budget. Don't recommend more than 3 skills + 1 playbook + 1 doc.
+Don't dump all 41 skills as a list. Don't ask 10 questions — 3 is the budget. Don't recommend more than 3 skills + 1 playbook + 1 doc.
 
 ## See Also
 - Next step (always): the 3 skills returned by this wizard

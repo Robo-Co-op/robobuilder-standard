@@ -3,7 +3,7 @@ name: canary
 preamble-tier: 2
 version: 1.0.0
 description: |
-  Post-deploy canary monitoring. Watches the live app for console errors,
+  [P5-3 Ship] Post-deploy canary monitoring. Watches the live app for console errors,
   performance regressions, and page failures using the browse daemon. Takes
   periodic screenshots, compares against pre-deploy baselines, and alerts
   on anomalies. Use when: "monitor deploy", "canary", "post-deploy check",
@@ -19,6 +19,7 @@ triggers:
   - canary check
   - watch for errors post-deploy
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M3.code.ship
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

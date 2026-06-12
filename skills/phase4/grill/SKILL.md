@@ -1,8 +1,8 @@
 ---
 name: grill
-description: "直近の変更（diff）を厳しく問い詰めて、見落とし・前提誤り・脆弱性を炙り出す敵対的レビュー"
+description: "[P4-3 Review] Adversarial review of the latest changes (diff). Interrogates the code mercilessly to expose oversights, false assumptions, and vulnerabilities — lists 5+ failure modes and ends with a SHIP / PATCH FIRST / REWRITE verdict"
 user-invocable: true
-argument-hint: "[対象ファイル/コミット範囲]"
+argument-hint: "[target files/commit range]"
 allowed-tools:
   - Read
   - Glob
@@ -13,43 +13,43 @@ bootcamp_module: M3.code.review
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
 > **robobuilder pedagogy** (phase4)
-> - **What**: 直近の変更（diff）を厳しく問い詰めて、見落とし・前提誤り・脆弱性を炙り出す敵対的レビュー
+> - **What**: Adversarial review of the latest diff — expose oversights, false assumptions, and vulnerabilities.
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:diff-review, /robobuilder:cross-review, /robobuilder:grill-me
 > - **Bootcamp**: M3.code.review
 > - **Origin**: Robo Co-op (Jin Kim)
 
 
-# /grill - 敵対的レビュー
+# /grill — Adversarial Review
 
-直近の変更（`git diff` または `$ARGUMENTS` で指定された対象）を**敵対的レビュー**してください。媚びず、容赦なく。
+Perform an **adversarial review** of the latest changes (`git diff`, or the target specified in `$ARGUMENTS`). No flattery. No mercy.
 
-## やること
-1. **前提を疑う** - このコードが暗黙に仮定していること（環境、入力、状態）を列挙し、それぞれ破る入力を考える
-2. **失敗モード列挙** - 5つ以上の「これで壊れる」シナリオ（並行性、ネットワーク失敗、partial failure、リトライ、null/undefined、空配列、上限超過）
-3. **ロジック検証** - 条件分岐の網羅性、off-by-one、境界、競合状態
-4. **代替案** - 「私ならこう書く」を1〜2案、なぜそちらが良いか理由つきで
-5. **副作用** - このコードがコミットされた時に変わる外部状態（DB、API、ファイル、ログ、課金、メール送信）
+## What to do
+1. **Question the assumptions** — enumerate everything this code implicitly assumes (environment, inputs, state) and devise an input that breaks each one
+2. **Enumerate failure modes** — 5+ "this breaks it" scenarios (concurrency, network failure, partial failure, retries, null/undefined, empty arrays, exceeding limits)
+3. **Verify the logic** — branch coverage, off-by-one, boundaries, race conditions
+4. **Alternatives** — 1–2 "here's how I would write it" proposals, with reasons why they're better
+5. **Side effects** — external state that changes when this code lands (DB, APIs, files, logs, billing, email sends)
 
-## 出力フォーマット
+## Output format
 ```
-## レビュー対象
-## 暗黙の前提（破られたら壊れる）
+## Review target
+## Implicit assumptions (break these and it breaks)
 1. ...
 2. ...
-## 失敗モード
-1. [致命] ...
-2. [中] ...
-## ロジック上の懸念
+## Failure modes
+1. [Critical] ...
+2. [Medium] ...
+## Logic concerns
 - ...
-## 代替案
-- 案A: ...
-- 案B: ...
-## 副作用
+## Alternatives
+- Option A: ...
+- Option B: ...
+## Side effects
 - ...
-## 一言判定: SHIP / PATCH FIRST / REWRITE
+## One-word verdict: SHIP / PATCH FIRST / REWRITE
 ```
 
-擁護するな。批判を求めている。「概ね問題ない」と言いたくなったら、もう一段深く掘れ。
+Do not defend the code. Criticism is what's being asked for. If you feel like saying "mostly fine," dig one level deeper.
 
 $ARGUMENTS

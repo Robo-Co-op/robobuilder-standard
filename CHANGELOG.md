@@ -2,6 +2,26 @@
 
 All notable changes to robobuilder.
 
+## [1.2.0] — 2026-06-12
+
+Workflow-order release. 40 → 41 skills; all-English content; upstream attribution fixes.
+
+### Added
+- **`blueprint-sync`** (new robobuilder-original skill, `skills/utils/blueprint-sync/`) — keeps design docs (PRD / DESIGN.md / ADRs / architecture docs) in sync with the implementation as you build. Diffs reality vs blueprint since the last sync marker, classifies each divergence (stale doc / implementation violation / intentional pivot), and updates docs accordingly. Wired into `playbook-new-feature` Step 4 and `docs/WORKFLOW.md`
+- Phase/order tag at the start of every skill description (e.g. `[P1-1 Design]`, `[Util-2]`) so the alphabetical `/plugin` skill list reads in workflow order. Within each phase, ordering follows practical usage order and frequency (grill family adjacent, review skills light → heavy, etc.)
+- `upstream:` frontmatter field (canonical source repo URL) on all 24 ingested Matt Pocock / GStack skills
+- `origin: robobuilder` frontmatter on the 4 meta skills and 3 playbooks (previously undeclared)
+- "All 41 skills, in workflow order" table in README
+
+### Changed
+- **All-English content**: `cross-review`, `diff-review`, `grill`, `btw`, `export` (descriptions and bodies) translated from Japanese to English
+- `setup` skill renamed from `setup-matt-pocock-skills` to `setup` (frontmatter `name:`); all internal references updated
+- README attribution now links to the canonical upstream repos
+
+### Fixed
+- **LICENSE**: Matt Pocock upstream URL corrected from the non-existent `mattpocock/ai-engineering-skills` to `mattpocock/skills` (verified live); all in-repo references updated
+- plugin.json version was still 1.0.0 despite the v1.1.0 tag; now tracks releases (1.2.0)
+
 ## [1.1.0] — 2026-05-12
 
 Polish & ship release. Same skill/agent/hook surface as v1.0; security and ergonomics hardening.

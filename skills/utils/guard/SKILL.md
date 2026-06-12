@@ -2,7 +2,7 @@
 name: guard
 version: 0.1.0
 description: |
-  Full safety mode: destructive command warnings + directory-scoped edits.
+  [Util-1] Full safety mode: destructive command warnings + directory-scoped edits.
   Combines /careful (warns before rm -rf, DROP TABLE, force-push, etc.) with
   /freeze (blocks edits outside a specified directory). Use for maximum safety
   when touching prod or debugging live systems. Use when asked to "guard mode",
@@ -33,6 +33,7 @@ hooks:
           command: "bash ${CLAUDE_SKILL_DIR}/../freeze/bin/check-freeze.sh"
           statusMessage: "Checking freeze boundary..."
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M6.compounding-engineering
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

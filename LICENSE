@@ -6,8 +6,8 @@ Copyright (c) 2026 Garry Tan (skills under origin: gstack)
 
 This plugin redistributes work from the following MIT-licensed projects with attribution:
 
-- Matt Pocock's AI Engineering Skills
-  Original repository: https://github.com/mattpocock/ai-engineering-skills
+- Matt Pocock's Skills
+  Original repository: https://github.com/mattpocock/skills
   License: MIT
   Affected skills: setup, zoom-out, diagnose, grill-me, grill-with-docs, to-prd,
                    to-issues, triage, tdd, prototype, caveman,

@@ -1,6 +1,7 @@
 ---
 name: playbook-review-deep
-description: Three-tier escalating review for critical merges. Runs diff-review → cross-review → grill in sequence, with user confirmation between tiers. Use before merging high-impact branches (security, payments, auth, multi-system migrations).
+description: "[PB-3] Three-tier escalating review for critical merges. Runs diff-review → cross-review → grill in sequence, with user confirmation between tiers. Use before merging high-impact branches (security, payments, auth, multi-system migrations)."
+origin: robobuilder
 ---
 
 # /robobuilder:playbook-review-deep

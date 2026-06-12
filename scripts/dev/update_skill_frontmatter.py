@@ -76,7 +76,7 @@ ORIGIN_BY_SKILL = {
 
 # Origin → human-readable attribution
 ORIGIN_ATTRIBUTION = {
-    "matt-pocock": "Matt Pocock (AI Engineering Skills, MIT)",
+    "matt-pocock": "Matt Pocock (mattpocock/skills, MIT)",
     "gstack": "Garry Tan (GStack, MIT)",
     "jin-custom": "Robo Co-op (Jin Kim)",
 }

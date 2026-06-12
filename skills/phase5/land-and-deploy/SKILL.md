@@ -3,7 +3,7 @@ name: land-and-deploy
 preamble-tier: 4
 version: 1.0.0
 description: |
-  Land and deploy workflow. Merges the PR, waits for CI and deploy,
+  [P5-2 Ship] Land and deploy workflow. Merges the PR, waits for CI and deploy,
   verifies production health via canary checks. Takes over after /ship
   creates the PR. Use when: "merge", "land", "deploy", "merge and verify",
   "land it", "ship it to production". (gstack)
@@ -18,6 +18,7 @@ triggers:
   - land the pr
   - ship to production
 origin: gstack
+upstream: https://github.com/garrytan/gstack
 bootcamp_module: M3.code.ship
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---

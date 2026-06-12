@@ -1,8 +1,8 @@
 ---
 name: btw
-description: "軽量ワンショット質問。重いレビュー・調査を呼ばず、最小コンテキストで即答する"
+description: "[Util-5] Lightweight one-shot question. Answers immediately with minimal context — no heavy reviews, no investigations, no subagents"
 user-invocable: true
-argument-hint: "<質問>"
+argument-hint: "<question>"
 allowed-tools:
   - Read
   - Glob
@@ -12,30 +12,30 @@ bootcamp_module: M6.compounding-engineering
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
 > **robobuilder pedagogy** (utils)
-> - **What**: 軽量ワンショット質問。重いレビュー・調査を呼ばず、最小コンテキストで即答する
+> - **What**: Lightweight one-shot question — answer immediately with minimal tool use, no subagents.
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:start, /robobuilder:handoff
 > - **Bootcamp**: M6.compounding-engineering
 > - **Origin**: Robo Co-op (Jin Kim)
 
 
-# /btw - 軽量ワンショット質問
+# /btw — Lightweight One-Shot Question
 
-`$ARGUMENTS` の質問に対して、**最小限のツール使用** で簡潔に答えてください。
+Answer the question in `$ARGUMENTS` concisely, with **minimal tool use**.
 
-## ルール
-- サブエージェントを呼ばない（grill, cross-review, diff-review などは使わない）
-- ファイルを開くのは最大1〜2ファイルまで
-- 推論・解説は3〜5行以内
-- コード例は提示するなら**最小**（1〜10行）
-- 「これで足りますか？深掘りしますか？」で締める
+## Rules
+- Do not invoke subagents (no grill, cross-review, diff-review, etc.)
+- Open at most 1–2 files
+- Reasoning/explanation within 3–5 lines
+- If you show a code example, keep it **minimal** (1–10 lines)
+- Close with "Is this enough, or should I dig deeper?"
 
-## 想定ユースケース
-- 「この関数何してる？」
-- 「TypeScript の Pick と Omit どっち使うべき？」
-- 「git rebase と merge の違いって？」
-- 「この設定書き方合ってる？」
+## Typical use cases
+- "What does this function do?"
+- "Should I use TypeScript's Pick or Omit here?"
+- "What's the difference between git rebase and merge?"
+- "Is this config syntax correct?"
 
-重い作業（レビュー・リファクタ提案・テスト生成）が必要そうな質問なら、**先に「これは /grill や /diff-review を使った方が良いです」と提案**してから判断を仰ぐ。
+If the question looks like it needs heavy work (review, refactor proposal, test generation), **first suggest "this is better handled by /grill or /diff-review"** and let the user decide.
 
 $ARGUMENTS
