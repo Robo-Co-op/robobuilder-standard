@@ -7,7 +7,7 @@ REPO_ROOT = Path(__file__).resolve().parents[2]
 def test_skills_do_not_hardcode_robobuilder_home_paths():
     offenders = []
     for path in sorted((REPO_ROOT / "skills").rglob("SKILL.md")):
-        text = path.read_text()
+        text = path.read_text(encoding="utf-8")
         for needle in ("~/.robobuilder", "$HOME/.robobuilder", "~/.robobuilder-dev"):
             if needle in text:
                 offenders.append(f"{path.relative_to(REPO_ROOT)} contains {needle}")
@@ -19,14 +19,14 @@ def test_runtime_aware_skills_reference_runtime_contract():
     runtime_skills = [
         path
         for path in sorted((REPO_ROOT / "skills").rglob("SKILL.md"))
-        if "ROBOBUILDER_STATE_ROOT" in path.read_text()
+        if "ROBOBUILDER_STATE_ROOT" in path.read_text(encoding="utf-8")
     ]
 
     assert runtime_skills
     missing = [
         str(path.relative_to(REPO_ROOT))
         for path in runtime_skills
-        if "docs/RUNTIME.md" not in path.read_text()
+        if "docs/RUNTIME.md" not in path.read_text(encoding="utf-8")
     ]
 
     assert missing == []
@@ -35,7 +35,7 @@ def test_runtime_aware_skills_reference_runtime_contract():
 def test_runtime_state_paths_are_quoted_in_shell_snippets():
     offenders = []
     for path in sorted((REPO_ROOT / "skills").rglob("SKILL.md")):
-        text = path.read_text()
+        text = path.read_text(encoding="utf-8")
         for line_no, line in enumerate(text.splitlines(), start=1):
             if "$ROBOBUILDER_STATE_ROOT/projects/$SLUG/" not in line:
                 continue

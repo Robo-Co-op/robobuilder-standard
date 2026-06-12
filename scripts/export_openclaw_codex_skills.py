@@ -48,7 +48,7 @@ def frontmatter_value(frontmatter: str, key: str) -> str:
 
 
 def skill_name(source: Path) -> str:
-    frontmatter, _ = split_frontmatter(source.read_text())
+    frontmatter, _ = split_frontmatter(source.read_text(encoding="utf-8"))
     name = frontmatter_value(frontmatter, "name")
     if not name:
         raise ValueError(f"{source} is missing frontmatter name")
@@ -56,7 +56,7 @@ def skill_name(source: Path) -> str:
 
 
 def generated_skill_text(source: Path) -> str:
-    original = source.read_text()
+    original = source.read_text(encoding="utf-8")
     frontmatter, body = split_frontmatter(original)
     name = frontmatter_value(frontmatter, "name")
     description = frontmatter_value(frontmatter, "description")
@@ -142,7 +142,7 @@ def export_skills(target: Path, replace_existing: bool) -> list[Path]:
         name = skill_name(source)
         destination = target / f"robobuilder-{name}" / "SKILL.md"
         destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_text(generated_skill_text(source))
+        destination.write_text(generated_skill_text(source), encoding="utf-8")
         written.append(destination)
 
     manifest = {
@@ -152,7 +152,7 @@ def export_skills(target: Path, replace_existing: bool) -> list[Path]:
         "skills": [path.parent.name for path in written],
         "shared": SHARED_DIR_NAME,
     }
-    (target / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    (target / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n", encoding="utf-8")
     return written
 
 

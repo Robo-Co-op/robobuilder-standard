@@ -36,7 +36,7 @@ def test_openclaw_codex_export_prefixes_skill_names_and_adds_adapter_note(tmp_pa
     run_export(target)
 
     for skill_file in target.glob("robobuilder-*/SKILL.md"):
-        text = skill_file.read_text()
+        text = skill_file.read_text(encoding="utf-8")
         assert text.startswith("---\nname: robobuilder-")
         assert "adapter: openclaw-codex" in text
         assert "# RoboBuilder OpenClaw/Codex Adapter" in text
@@ -52,7 +52,7 @@ def test_openclaw_codex_export_includes_shared_resources_and_manifest(tmp_path: 
     assert (shared / "bin" / "robobuilder-paths").exists()
     assert (shared / "company.yaml").exists()
 
-    manifest = json.loads((target / "manifest.json").read_text())
+    manifest = json.loads((target / "manifest.json").read_text(encoding="utf-8"))
     assert manifest["name"] == "robobuilder-openclaw-codex"
     assert manifest["shared"] == "_robobuilder_shared"
     assert "robobuilder-tdd" in manifest["skills"]
