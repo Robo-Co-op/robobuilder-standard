@@ -1,92 +1,329 @@
 ---
 name: blueprint-sync
-description: "[Util-2] Keep design docs (PRD / DESIGN.md / ADRs / architecture docs) in sync with the implementation as you build. Diffs reality against the blueprint, classifies each divergence (stale doc / implementation violation / intentional pivot), and updates the docs so they stay living documents"
+version: 1.0.0
+description: |
+  [Util-2] Detects drift between the codebase and its design documents (PRD, architecture docs,
+  ADRs, README), then updates or creates docs to reflect reality. Use when: code has
+  drifted from the blueprint, after landing a big feature, running a retrospective after
+  ship, or maintaining living documentation. Modes: drift-check (detect gaps),
+  update-docs (fix docs), retrospective (post-ship review + doc update),
+  living-doc (lightweight incremental update).
 user-invocable: true
-argument-hint: "[--since <ref>] commit range to compare; defaults to the last sync marker"
+argument-hint: "[drift-check|update-docs|retrospective|living-doc]"
 allowed-tools:
-  - Read
-  - Glob
-  - Grep
   - Bash
-  - Edit
+  - Read
   - Write
+  - Edit
+  - Grep
+  - Glob
+  - Agent
+  - AskUserQuestion
+preamble-tier: 3
 origin: robobuilder
 bootcamp_module: M3.code.review
 bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 ---
 > **robobuilder pedagogy** (utils)
-> - **What**: Keep design docs in sync with the implementation as you build — diff reality vs blueprint, classify divergences, update the docs.
-> - **When**: Whenever you notice the code drifting from the design; after completing a vertical slice; before review; as part of the ship checklist.
+> - **What**: Keep design docs in sync with the implementation as you build — detect drift, classify it, update the docs.
+> - **When**: Whenever you notice the code drifting from the design; after landing a slice or feature; post-ship retrospective; whenever docs feel stale.
 > - **See Also**: /robobuilder:to-prd, /robobuilder:tdd, /robobuilder:ship, /robobuilder:handoff
 > - **Bootcamp**: M3.code.review
 > - **Origin**: Robo Co-op (robobuilder original)
 
 
-# /blueprint-sync — Keep the Blueprint Alive
+# Blueprint Sync
 
-As development progresses, the implementation inevitably diverges from the original design. A blueprint that nobody updates becomes a lie — worse than no blueprint at all. This skill makes design docs **living documents**: every time reality and blueprint disagree, resolve the disagreement explicitly, in the right direction.
+Keeps your design documents honest. As code evolves, blueprints drift. This skill detects the gap and closes it.
 
-Run it **during development, not just at the end**: after finishing a vertical slice, when you catch yourself implementing something the PRD doesn't describe, before a review round, or as part of the ship checklist.
+---
 
-## Steps
+## Modes
 
-### 1. Locate the blueprints
+| Mode | When to use |
+|------|-------------|
+| `drift-check` | Audit how far docs have drifted from the code |
+| `update-docs` | Rewrite/update docs to match current reality |
+| `retrospective` | Post-ship: reflect on what changed + update docs |
+| `living-doc` | After a small PR: lightweight one-pass doc touch |
 
-Find the project's design artifacts. Look for (don't assume all exist):
+If no mode is specified, auto-detect from context:
+- After `/ship` → `retrospective`
+- User says "update docs" / "docs are stale" → `update-docs`
+- User says "what's drifted" / "is the design up to date" → `drift-check`
+- Small PR just landed → `living-doc`
 
-- `PRD*.md`, `docs/prd/` — product requirements
-- `DESIGN.md`, `docs/design/` — design system / technical design
-- `docs/adr/` — architecture decision records
-- `CONTEXT.md`, `CONTEXT-MAP.md` — domain language
-- `ARCHITECTURE.md`, architecture diagrams (mermaid blocks in docs)
+---
 
-If no design docs exist at all, stop and tell the user — suggest `/robobuilder:to-prd` to create one first.
+## Step 0: Discover documents
 
-### 2. Diff reality vs blueprint
+Locate all design artifacts in the repo:
 
-Determine the comparison range:
+```bash
+# Find candidate documents
+find . -maxdepth 4 \( \
+  -name "PRD.md" -o -name "ARCHITECTURE.md" -o -name "DESIGN.md" \
+  -o -name "README.md" -o -name "BLUEPRINT.md" -o -name "SPEC.md" \
+  -o -name "DECISIONS.md" -o -name "CHANGELOG.md" \
+  -o -iname "*.adr.md" \
+\) \
+  ! -path "*/node_modules/*" ! -path "*/.git/*" 2>/dev/null
+```
 
-- If `$ARGUMENTS` contains `--since <ref>`, use that
-- Else look for the last sync marker (`<!-- blueprint-sync: <commit-sha> <date> -->` at the bottom of each design doc)
-- Else fall back to the merge-base with the default branch
+Also check for an `docs/` or `design/` directory:
 
-Then read the implementation changes in that range (`git log --stat`, `git diff`) and compare against what the blueprint says. For each design doc section that touches changed code, ask: *does the doc still describe what the code actually does?*
+```bash
+ls docs/ design/ 2>/dev/null | head -20
+```
 
-### 3. Classify each divergence
+If no documents found → print "No design documents found. Create a PRD first with `robobuilder-to-prd`, or create `ARCHITECTURE.md` manually." Stop.
 
-For every disagreement found, classify it — this is the core judgment of the skill:
+List the found documents with a one-line summary of each (first non-empty heading or first sentence).
 
-| Class | Meaning | Action |
+---
+
+## Mode: drift-check
+
+### 1. Snapshot current code shape
+
+```bash
+# High-level structure
+find . -type f \( -name "*.ts" -o -name "*.tsx" -o -name "*.rb" -o -name "*.py" -o -name "*.go" \) \
+  ! -path "*/node_modules/*" ! -path "*/.git/*" ! -path "*/dist/*" ! -path "*/.next/*" \
+  | sort | head -80
+
+# API routes / endpoints
+grep -rE "(get|post|put|patch|delete)\s*\(" --include="*.ts" --include="*.rb" --include="*.py" \
+  -l 2>/dev/null | head -20
+
+# Data models / schemas
+find . -name "schema.prisma" -o -name "schema.rb" -o -name "models.py" \
+  ! -path "*/node_modules/*" 2>/dev/null | head -10
+```
+
+### 2. Read each design document
+
+For each document found in Step 0, read it fully (or the first 200 lines if long).
+
+### 3. Compare and classify drift
+
+For each document, identify drift across these categories:
+
+**Structural drift** — code exists that the doc doesn't mention:
+- New modules, services, or directories
+- New API routes or endpoints
+- New data models or DB tables
+- Removed components still described in docs
+
+**Terminology drift** — names in docs don't match code:
+- Class/function names renamed
+- Concept renamed (e.g., "User" → "Account")
+- Architecture pattern changed
+
+**Flow drift** — described flows no longer match implementation:
+- Auth flow changed
+- Data pipeline changed
+- Integration points changed
+
+**Decision drift** — ADRs or design decisions overridden without record:
+- Chose X in the doc, implemented Y
+- Constraint mentioned in doc no longer applies
+
+Then decide the **resolution direction** for each drift item — this is the core judgment:
+
+| Direction | Meaning | Action |
 |---|---|---|
-| **(a) Stale doc** | The implementation is right; the design is outdated | Update the design doc to match reality |
-| **(b) Implementation violation** | The design is right; the code drifted incorrectly | Flag it — do NOT silently change the doc. File an issue (or list it for the user) |
-| **(c) Intentional pivot** | The direction changed on purpose during development | Update the design doc AND record the decision as an ADR entry (what changed, why, when) |
+| **stale-doc** | The implementation is right; the design is outdated | Update the design doc to match reality |
+| **violation** | The design is right; the code drifted incorrectly | Flag it — do NOT silently change the doc. File an issue (or list it for the user) |
+| **pivot** | The direction changed on purpose during development | Update the design doc AND record the decision as an ADR entry (what changed, why, when) |
 
-When unsure which class a divergence belongs to, ask the user — never guess between (a) and (b); they point in opposite directions.
+When unsure between **stale-doc** and **violation**, ask the user — never guess; they point in opposite directions. Silently "fixing" the doc for a violation launders a bug into a spec.
 
-### 4. Apply
-
-1. Present the full divergence list with proposed classifications and doc edits
-2. On approval: apply the doc edits, write ADR entries for class (c), file/record issues for class (b)
-3. Stamp each touched design doc with a fresh sync marker: `<!-- blueprint-sync: <HEAD-sha> <YYYY-MM-DD> -->`
-
-## Output format
+### 4. Output drift report
 
 ```
-## Blueprint sync — <range>
-### Divergences found: N
-1. [stale-doc] DESIGN.md §Auth — doc says session cookies, code uses JWT → doc updated
-2. [violation] PRD §Rate limits — code skips limit on admin route → issue filed
-3. [pivot] ADR-0007 added — switched queue from Redis to SQS (2026-06-12)
-### Docs updated: ...
-### Issues filed: ...
-### Sync marker: <sha>
+BLUEPRINT DRIFT REPORT
+══════════════════════════════════════════════════
+Repo: {repo name}  |  Checked: {date}
+
+ARCHITECTURE.md
+  [DRIFT] Section "Authentication" describes JWT — code uses sessions (Devise)
+  [DRIFT] "Redis queue" mentioned — Sidekiq jobs found instead
+  [NEW]   app/services/billing/ — not documented anywhere
+  [CLEAN] Database schema section matches schema.rb
+
+PRD.md
+  [STALE] Feature "Dashboard v2" described — not found in codebase
+  [NEW]   /api/webhooks endpoint — not in PRD scope
+  [CLEAN] Core user flows match implementation
+
+README.md
+  [DRIFT] Setup instructions reference .env.example — file doesn't exist
+  [CLEAN] Tech stack section accurate
+
+──────────────────────────────────────────────────
+SUMMARY: 5 drift items, 3 new gaps, 3 clean sections
+RECOMMENDATION: Run `blueprint-sync update-docs` to fix.
+══════════════════════════════════════════════════
 ```
 
-## Anti-patterns
+---
 
-- **Doc-only sync at release time** — by then nobody remembers *why* the code diverged. Sync while the context is fresh
-- **Silently "fixing" the doc for a class (b) violation** — that launders a bug into a spec
-- **Rewriting the whole design doc** — touch only the sections that diverged; the blueprint's history should stay readable
+## Mode: update-docs
 
-$ARGUMENTS
+### 1. Run drift-check first (if not already done)
+
+Get the full drift report. Confirm with user before making changes:
+
+> "I found N drift items. I'll update the docs to match the current code.
+> Docs I'll update: {list}
+> A) Proceed  B) Review each change before applying  C) Cancel"
+
+### 2. For each document with drift
+
+Read the full doc. For each drift item:
+
+- **[DRIFT]** — update the section to match current code reality
+- **[STALE]** — either remove or move to an "Out of scope / History" section
+- **[NEW]** — add a new section documenting the undocumented component
+
+When writing updates:
+- Match the document's existing tone and format
+- Don't rewrite sections that are still accurate — surgical edits only
+- Add a `<!-- last-synced: {date} by blueprint-sync -->` comment after updated sections
+
+### 3. Commit
+
+```bash
+git add {changed doc files}
+git commit -m "docs: sync blueprint with current implementation
+
+Updated by robobuilder-blueprint-sync.
+Drift items resolved: {N}
+New sections added: {M}"
+```
+
+### 4. Output summary
+
+```
+DOCS UPDATED
+────────────────────────────────
+ARCHITECTURE.md  — 2 sections updated, 1 added
+PRD.md           — 1 stale feature archived, 1 new endpoint added
+README.md        — setup instructions corrected
+
+Committed: docs: sync blueprint with current implementation
+```
+
+---
+
+## Mode: retrospective
+
+Run after `/ship`. Reviews what shipped vs what was planned, then updates docs.
+
+### 1. What shipped?
+
+```bash
+# Get the diff vs base branch
+git log --oneline -20
+git diff origin/main --stat 2>/dev/null | tail -20
+```
+
+### 2. What was planned?
+
+Read PRD.md and/or ARCHITECTURE.md. Identify the relevant sections for the shipped work.
+
+### 3. Retrospective questions
+
+For each significant change in the diff, ask:
+
+- Did this match what the design doc described?
+- Did we discover new constraints during implementation?
+- Did we make a different architectural choice than planned? (→ log as ADR)
+- Does anything in the docs now mislead a future reader?
+
+### 4. Update docs
+
+Apply updates same as `update-docs` mode.
+
+### 5. Optionally create ADR
+
+If a significant design decision was made during implementation that diverged from the plan:
+
+```markdown
+# ADR-{N}: {Decision title}
+
+**Date:** {date}
+**Status:** Accepted
+
+## Context
+{What was originally planned, what changed during implementation}
+
+## Decision
+{What we decided and why}
+
+## Consequences
+{Trade-offs and follow-up work}
+```
+
+Write to `docs/decisions/ADR-{N}.md` or `DECISIONS.md`.
+
+---
+
+## Mode: living-doc
+
+Lightweight mode for small PRs. One pass, minimal changes.
+
+### 1. Get the PR diff
+
+```bash
+git diff origin/main --name-only 2>/dev/null | head -30
+git diff origin/main --stat 2>/dev/null | tail -5
+```
+
+### 2. Check if any changed component is documented
+
+For each changed file, search the docs:
+
+```bash
+# Check if the changed filename/module is mentioned in docs
+grep -r "{module_name}" docs/ README.md ARCHITECTURE.md 2>/dev/null | head -10
+```
+
+### 3. Apply minimal updates
+
+Only update if there's a clear mismatch. Don't rewrite — just patch:
+- Update a version number, a component name, a config example
+- Add a one-liner about a new module if docs have a relevant section
+
+### 4. If nothing needs updating
+
+Print: "Docs are current for this change. No update needed."
+
+---
+
+## Integration with /ship
+
+When called from `/ship` retrospective mode, insert after Step 19 (PR created):
+
+```
+Blueprint Sync (retrospective):
+  Drift items found: {N}
+  Docs updated: {list or "none"}
+  ADRs created: {list or "none"}
+```
+
+Add to PR body:
+```markdown
+## Documentation
+{docs updated or "No doc updates needed"}
+```
+
+---
+
+## Tips
+
+- Run `drift-check` at the start of a major sprint to see accumulated debt
+- Run `retrospective` after every `/ship` — it's the lightest habit with the biggest payoff
+- Run `update-docs` when onboarding someone new (fresh eyes will hit the stale docs hardest)
+- Keep ADRs for any "we tried X but switched to Y" decisions — future you will thank you

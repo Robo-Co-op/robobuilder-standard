@@ -1,6 +1,9 @@
 # robobuilder
 
-**Robo Co-op standard Claude Code dev plugin.**
+**Robo Co-op standard development skill system.**
+
+Primary distribution is a Claude Code plugin. The same skill source can also be
+exported as an OpenClaw/Codex skill pack.
 
 One install gives every team member:
 - 41 curated dev skills across 6 phases (Investigate → Design → Prototype → Implement → Refactor → Review → Ship)
@@ -25,6 +28,8 @@ Not personal-projects scaffolding — use Skill Creator for one-off skills you d
 
 ## Install
 
+### Claude Code
+
 ```sh
 /plugin marketplace add Robo-Co-op/robobuilder
 /plugin install robobuilder@robo-coop-tools
@@ -38,7 +43,25 @@ On first install, run:
 /robobuilder:tune-claude-md     # personalize your CLAUDE.md with Robo Co-op best practices
 ```
 
-See `docs/INSTALL.md` for full setup including optional GStack binary compile (`browse`) and `cc-feature-radar` scheduled agent.
+See `docs/INSTALL.md` for full setup including the optional robobuilder feature radar routine.
+
+### OpenClaw / Codex
+
+Generate and install adapter skills:
+
+```sh
+python3 scripts/export_openclaw_codex_skills.py \
+  --target ~/.openclaw/skills \
+  --replace-existing
+```
+
+For Codex, use `--target "${CODEX_HOME:-$HOME/.codex}/skills"` instead.
+
+See `docs/OPENCLAW_CODEX.md`.
+
+### Claude Desktop
+
+See `docs/CLAUDE_DESKTOP.md` for MCP bridge setup, Projects-based usage, and feature comparison across all versions.
 
 ## Quick reference
 
@@ -52,7 +75,7 @@ See `docs/INSTALL.md` for full setup including optional GStack binary compile (`
 | Ship it | `/robobuilder:ship` → `/robobuilder:land-and-deploy` → `/robobuilder:canary` |
 | End session | `/robobuilder:handoff` |
 
-Full chart: `docs/WORKFLOW.md`. Decision tree: `docs/DECISION_FLOW.md`.
+Full chart: `docs/WORKFLOW.md`. Decision tree: `docs/DECISION_FLOW.md`. Runtime helper contract: `docs/RUNTIME.md`.
 
 ## All 41 skills, in workflow order
 

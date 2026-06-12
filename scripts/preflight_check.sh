@@ -57,11 +57,8 @@ if ! command -v git >/dev/null 2>&1; then
     errors=$((errors + 1))
 fi
 
-# 7. Bun for optional binary skills (browse)?
-if ! command -v bun >/dev/null 2>&1; then
-    echo "[WARN] bun not found. Skill /browse requires GStack binaries — run scripts/install_binaries.sh after install."
-    warnings=$((warnings + 1))
-fi
+# 7. Runtime binaries?
+echo "[INFO] No external robobuilder runtime binaries are required."
 
 echo
 echo "Result: errors=${errors}, warnings=${warnings}"

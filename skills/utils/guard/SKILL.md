@@ -6,7 +6,7 @@ description: |
   Combines /careful (warns before rm -rf, DROP TABLE, force-push, etc.) with
   /freeze (blocks edits outside a specified directory). Use for maximum safety
   when touching prod or debugging live systems. Use when asked to "guard mode",
-  "full safety", "lock it down", or "maximum safety". (gstack)
+  "full safety", "lock it down", or "maximum safety". (robobuilder-local)
 triggers:
   - full safety mode
   - guard against mistakes
@@ -42,7 +42,7 @@ bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 > - **When**: see the description above for trigger keywords; details in the body below.
 > - **See Also**: /robobuilder:context-save
 > - **Bootcamp**: M6.compounding-engineering
-> - **Origin**: Garry Tan (GStack, MIT)
+> - **Origin**: Garry Tan upstream, adapted for RoboBuilder
 
 <!-- AUTO-GENERATED from SKILL.md.tmpl — do not edit directly -->
 <!-- Regenerate: bun run gen:skill-docs -->
@@ -52,14 +52,13 @@ bootcamp_url: https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504
 Activates both destructive command warnings and directory-scoped edit restrictions.
 This is the combination of `/careful` + `/freeze` in a single command.
 
+## RoboBuilder Runtime Notes
+
+Use `bin/robobuilder-paths` for local state. Full contract: `docs/RUNTIME.md`.
+
 **Dependency note:** This skill references hook scripts from the sibling `/careful`
 and `/freeze` skill directories. Both must be installed (they are installed together
-by the gstack setup script).
-
-```bash
-mkdir -p ~/.gstack/analytics
-echo '{"skill":"guard","ts":"'$(date -u +%Y-%m-%dT%H:%M:%SZ)'","repo":"'$(basename "$(git rev-parse --show-toplevel 2>/dev/null)" 2>/dev/null || echo "unknown")'"}'  >> ~/.gstack/analytics/skill-usage.jsonl 2>/dev/null || true
-```
+with the companion safety skills).
 
 ## Setup
 
@@ -79,8 +78,8 @@ echo "$FREEZE_DIR"
 2. Ensure trailing slash and save to the freeze state file:
 ```bash
 FREEZE_DIR="${FREEZE_DIR%/}/"
-eval "$(~/.claude/skills/gstack/bin/gstack-paths)"
-STATE_DIR="$GSTACK_STATE_ROOT"
+eval "$(bin/robobuilder-paths)"
+STATE_DIR="$ROBOBUILDER_STATE_ROOT"
 mkdir -p "$STATE_DIR"
 echo "$FREEZE_DIR" > "$STATE_DIR/freeze-dir.txt"
 echo "Freeze boundary set: $FREEZE_DIR"

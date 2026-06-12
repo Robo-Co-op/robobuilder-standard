@@ -2,25 +2,38 @@
 
 All notable changes to robobuilder.
 
-## [1.2.0] — 2026-06-12
+## [1.3.0] — 2026-06-12
 
-Workflow-order release. 40 → 41 skills; all-English content; upstream attribution fixes.
+Workflow-order release. All-English content; upstream attribution fixes; blueprint-sync polish.
 
 ### Added
-- **`blueprint-sync`** (new robobuilder-original skill, `skills/utils/blueprint-sync/`) — keeps design docs (PRD / DESIGN.md / ADRs / architecture docs) in sync with the implementation as you build. Diffs reality vs blueprint since the last sync marker, classifies each divergence (stale doc / implementation violation / intentional pivot), and updates docs accordingly. Wired into `playbook-new-feature` Step 4 and `docs/WORKFLOW.md`
 - Phase/order tag at the start of every skill description (e.g. `[P1-1 Design]`, `[Util-2]`) so the alphabetical `/plugin` skill list reads in workflow order. Within each phase, ordering follows practical usage order and frequency (grill family adjacent, review skills light → heavy, etc.)
-- `upstream:` frontmatter field (canonical source repo URL) on all 24 ingested Matt Pocock / GStack skills
-- `origin: robobuilder` frontmatter on the 4 meta skills and 3 playbooks (previously undeclared)
+- `upstream:` frontmatter field (canonical source repo URL) on all ingested Matt Pocock / GStack skills
+- `origin: robobuilder` frontmatter on the 4 meta skills, 3 playbooks, and `blueprint-sync` (previously undeclared or mislabeled)
+- `blueprint-sync`: resolution-direction table (stale-doc / violation / pivot) in drift classification; robobuilder pedagogy preamble; wired into `playbook-new-feature` Step 4 and `docs/WORKFLOW.md`
 - "All 41 skills, in workflow order" table in README
 
 ### Changed
-- **All-English content**: `cross-review`, `diff-review`, `grill`, `btw`, `export` (descriptions and bodies) translated from Japanese to English
+- **All-English content**: `cross-review`, `diff-review`, `grill`, `btw`, `export` (descriptions and bodies) and test comments translated from Japanese to English
 - `setup` skill renamed from `setup-matt-pocock-skills` to `setup` (frontmatter `name:`); all internal references updated
 - README attribution now links to the canonical upstream repos
 
 ### Fixed
 - **LICENSE**: Matt Pocock upstream URL corrected from the non-existent `mattpocock/ai-engineering-skills` to `mattpocock/skills` (verified live); all in-repo references updated
-- plugin.json version was still 1.0.0 despite the v1.1.0 tag; now tracks releases (1.2.0)
+- plugin.json version was still 1.0.0 despite the v1.1.0 tag; now tracks releases (1.3.0)
+
+## [1.2.0] — 2026-05-23
+
+New skill: `blueprint-sync` — keeps design documents honest as code evolves.
+
+### Added
+- `skills/utils/blueprint-sync/` — new cross-cutting skill with 4 modes:
+  - `drift-check`: detect gaps between docs and code, output a structured drift report
+  - `update-docs`: surgically update docs to match current reality, commit changes
+  - `retrospective`: post-ship review + doc sync + optional ADR creation
+  - `living-doc`: lightweight single-pass update after small PRs
+  - Auto-detects mode from context (post-ship → retrospective, etc.)
+- `ship` skill: added `/robobuilder:blueprint-sync` to See Also; added post-ship suggestion rule to Important Rules
 
 ## [1.1.0] — 2026-05-12
 
@@ -33,7 +46,7 @@ Polish & ship release. Same skill/agent/hook surface as v1.0; security and ergon
 - `scripts/tests/conftest.py` with shared fixtures (`run_script`, `tmp_memory_dir`); runtime-built attack strings so tests don't trip block_secrets when edited in-session
 - `scripts/pytest.ini` + `scripts/tests/README.md`
 - Test-fixture exemption for content scanning in `block_secrets.py` — paths under `tests/`, `__tests__/`, `fixtures/`, `*_test.py`, `conftest.py`, `*.spec.{ts,js,tsx,jsx}`, `*.test.{ts,js,tsx,jsx}` skip CONTENT scanning (file-name scanning still applies)
-- `GSTACK_REF=main + AUTO_YES=1` combination guard in `install_binaries.sh` — refuses to auto-confirm installs from moving branch tips
+- Legacy binary installer supply-chain guard in `install_binaries.sh` — refused to auto-confirm installs from moving branch tips before the installer was replaced by a no-op compatibility shim
 - `## Security-sensitive code` section in `CLAUDE.md.baseline`
 - Explicit precedence note in `settings.json.example` (deny → ask → allow, verified against docs)
 

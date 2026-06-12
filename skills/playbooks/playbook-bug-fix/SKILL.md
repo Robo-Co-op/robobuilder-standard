@@ -25,7 +25,7 @@ Bugs without regression tests come back. Bugs without diagnosis get the symptom 
 Invoke `/robobuilder:diagnose` via Skill tool.
 Goal: reproduce the bug, minimize the trigger, form a hypothesis, instrument to confirm.
 
-If diagnose fails 3 times: invoke `/gstack:investigate` as fallback (assumes gstack installed; otherwise re-run diagnose with fresh assumptions).
+If diagnose fails 3 times: restart diagnosis with fresh assumptions. Re-read the failing path, add the smallest useful instrumentation, and ask the user for one missing reproduction detail only if the code and logs do not contain it.
 
 ### Step 2 — Fix with regression test
 Confirm: "Hypothesis confirmed. Move to /tdd to write the regression test first? (y/n)"

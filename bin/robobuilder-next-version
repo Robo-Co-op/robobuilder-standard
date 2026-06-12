@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+current="0.0.0"
+[ -f VERSION ] && current=$(tr -d '[:space:]' < VERSION)
+IFS=. read -r major minor patch rest <<< "$current"
+major=${major:-0}; minor=${minor:-0}; patch=${patch:-0}
+patch=$((patch + 1))
+printf '{"version":"%s.%s.%s","current":"%s","source":"local"}\n' "$major" "$minor" "$patch" "$current"

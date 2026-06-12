@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+payload="${1:-}"
+if [ -z "$payload" ]; then
+  payload="$(cat)"
+fi
+
+eval "$("$(dirname "$0")/robobuilder-slug")"
+state_root="${ROBOBUILDER_HOME:-$HOME/.robobuilder}"
+project="$state_root/projects/${SLUG:-unknown}"
+mkdir -p "$project"
+printf '%s\n' "$payload" >> "$project/reviews.jsonl"

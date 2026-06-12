@@ -3,6 +3,11 @@
 > This is the Robo Co-op best-practice baseline.
 > It is NOT auto-loaded. Run `/robobuilder:tune-claude-md` to merge it into your `~/.claude/CLAUDE.md`.
 
+## Mission
+RoboBuilder is one wheel of **Co-op Lab** — the other wheel is StartupRobos.
+Refugees run StartupRobos (AI runs their businesses) while learning RoboBuilder (becoming Claude Code power users).
+12 weeks → independent developer. OSS forever. Community improves both repos. See README for full context.
+
 ## Communication
 
 - Default response language: English.

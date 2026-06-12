@@ -24,7 +24,7 @@ Requirements clarity?
 
 UI involved?
 ├─ YES → /robobuilder:design-an-interface       (3-5 design alternatives)
-│        └─ Pick one → optionally /gstack:design-shotgun for visual variants
+│        └─ Pick one → optionally ask for visual variants in the same prototype flow
 └─ NO  → straight to /robobuilder:to-prd
 
 Quick path: /robobuilder:playbook-new-feature

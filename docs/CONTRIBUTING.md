@@ -124,10 +124,10 @@ Maintainer bumps semver in `.claude-plugin/plugin.json` and tags. Team picks it 
 
 - **block_secrets.py compound extensions** (e.g., `credentials.json.bak`): the doc-extension exclusion uses negative lookbehinds for `.md` / `.rst` / `.adoc` / `.html` / `.txt`. A path ending in another extension AFTER one of those (`.md.bak`, `.txt.old`) bypasses the exclusion and may either let a secret-file copy slip through or block a backup of a doc file. Low frequency in practice; accepted trade-off vs weakening the secret-file pattern. If you hit it, rename to drop the second extension before editing, or commit the file in your IDE and let pre-commit handle it.
 - **block_secrets.py JWT pattern**: `eyJ.eyJ.` matches base64-encoded JWTs and any base64-shaped string starting with `{`. Test fixtures in `tests/` / `fixtures/` / `*_test.py` etc. are exempted from CONTENT scanning to avoid false positives on JWT-like sample payloads.
-- **install_binaries.sh + AUTO_YES**: setting `ROBOBUILDER_INSTALL_AUTO_YES=1` while `GSTACK_REF` is `main` / `master` / `HEAD` is rejected at script start to prevent unguarded supply-chain installs. Pin `GSTACK_REF` to an immutable tag or SHA for CI.
+- **install_binaries.sh**: kept as a no-op compatibility shim. Do not add third-party clone/build steps here; robobuilder should stay free of external runtime binary installs.
 
 ## Maintenance cadence
 
 - Weekly: maintainer reviews Feature Adoption Loop output (`feature_radar.md`) and decides if any upstream feature should land here.
-- Monthly: drift check against upstream Matt Pocock + GStack repos.
+- Monthly: drift check against upstream source packs and robobuilder-local maintenance notes.
 - Quarterly: semver bump if non-trivial changes accumulated.
