@@ -148,7 +148,7 @@ def export_skills(target: Path, replace_existing: bool) -> list[Path]:
     manifest = {
         "name": "robobuilder-openclaw-codex",
         "description": "Generated OpenClaw/Codex adapter pack for RoboBuilder skills.",
-        "source": "https://github.com/Robo-Co-op/robobuilder",
+        "source": "https://github.com/Robo-Co-op/robobuilder-standard",
         "skills": [path.parent.name for path in written],
         "shared": SHARED_DIR_NAME,
     }

@@ -2,6 +2,16 @@
 
 All notable changes to robobuilder.
 
+## [1.4.0] — 2026-07-03
+
+Three-editions release. This repo is now **Robo Builder Standard**.
+
+### Changed
+- GitHub repo renamed `Robo-Co-op/robobuilder` → `Robo-Co-op/robobuilder-standard` (old URL redirects). The plugin name stays `robobuilder`, so installed `/robobuilder:*` commands are unaffected
+- README: "Three editions" comparison table (Lite / Standard / Pro) with the L1-L4 loop-stack positioning
+- marketplace.json bumped to v2.0.0: `robo-coop-tools` now lists all three plugins — `robobuilder` (this repo), `robobuilder-lite` (4 merged mega-skills for beginners), `robobuilder-pro` (Loop Engineering add-on)
+- plugin.json description marks this as the Standard edition
+
 ## [1.3.0] — 2026-06-12
 
 Workflow-order release. All-English content; upstream attribution fixes; blueprint-sync polish.

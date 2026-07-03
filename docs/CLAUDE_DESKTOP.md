@@ -13,7 +13,7 @@ RoboBuilder's skills and agents can be made available in Claude Desktop by runni
 
 ```bash
 # Clone RoboBuilder
-git clone https://github.com/Robo-Co-op/robobuilder ~/.robobuilder-src
+git clone https://github.com/Robo-Co-op/robobuilder-standard ~/.robobuilder-src
 
 # Install the MCP bridge
 cd ~/.robobuilder-src

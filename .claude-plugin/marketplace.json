@@ -5,16 +5,50 @@
     "name": "Robo Co-op",
     "email": "tools@roboco-op.org"
   },
-  "description": "Robo Co-op official marketplace — the team-curated Claude Code plugins.",
-  "version": "1.0.0",
+  "description": "Robo Co-op official marketplace — the team-curated Claude Code plugins in three editions: Lite (beginners), Standard (full workflow), Pro (Loop Engineering add-on).",
+  "version": "2.0.0",
   "plugins": [
     {
       "name": "robobuilder",
       "source": "./",
-      "description": "Robo Co-op standard dev plugin — 41 skills, 9 phase-specific agents, 3 playbooks, harness config, bidirectional Notion learning loop.",
-      "version": "1.0.0",
+      "description": "Robo Builder Standard — 41 skills, 9 phase-specific agents, 3 playbooks, harness config, bidirectional Notion learning loop.",
+      "version": "1.4.0",
       "category": "development",
       "tags": ["robo-co-op", "workflow", "tdd", "bootcamp", "compounding-engineering"],
+      "license": "MIT",
+      "author": {
+        "name": "Robo Co-op",
+        "email": "tools@roboco-op.org"
+      },
+      "homepage": "https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504"
+    },
+    {
+      "name": "robobuilder-lite",
+      "source": {
+        "source": "github",
+        "repo": "Robo-Co-op/robobuilder-lite"
+      },
+      "description": "Robo Builder Lite — 4 merged mega-skills (plan / build / improve / ship) for beginners, with the same hooks and review agents as Standard.",
+      "version": "1.0.0",
+      "category": "development",
+      "tags": ["robo-co-op", "workflow", "beginners", "tdd"],
+      "license": "MIT",
+      "author": {
+        "name": "Robo Co-op",
+        "email": "tools@roboco-op.org"
+      },
+      "homepage": "https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504"
+    },
+    {
+      "name": "robobuilder-pro",
+      "source": {
+        "source": "github",
+        "repo": "Robo-Co-op/robobuilder-pro"
+      },
+      "description": "Robo Builder Pro — Loop Engineering add-on (install alongside Standard): design, gate, audit, and compound autonomous agent loops on top of native /goal, /loop, /batch, and Routines.",
+      "version": "1.0.0",
+      "category": "development",
+      "tags": ["robo-co-op", "loop-engineering", "autonomy", "compounding-engineering"],
       "license": "MIT",
       "author": {
         "name": "Robo Co-op",

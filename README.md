@@ -1,9 +1,20 @@
-# robobuilder
+# robobuilder (Standard edition)
 
 **Robo Co-op standard development skill system.**
 
 Primary distribution is a Claude Code plugin. The same skill source can also be
 exported as an OpenClaw/Codex skill pack.
+
+## Three editions
+
+| Edition | Repo | Who it's for | Contents |
+|---|---|---|---|
+| **Lite** | [robobuilder-lite](https://github.com/Robo-Co-op/robobuilder-lite) | Beginners — learn the workflow with 4 commands | 4 merged mega-skills (`plan` / `build` / `improve` / `ship`) + the same hooks and review agents |
+| **Standard** (this repo) | [robobuilder-standard](https://github.com/Robo-Co-op/robobuilder-standard) | Daily development | 41 skills / 9 agents / 6 hooks / 3 playbooks |
+| **Pro** | [robobuilder-pro](https://github.com/Robo-Co-op/robobuilder-pro) | Loop Engineering — autonomous agent loops | Add-on installed **alongside Standard**: design, gate, audit, and compound loops built on native `/goal`, `/loop`, `/batch`, and Routines |
+
+Standard covers the inner loop (L1 agent loop + L2 verification: tdd / diagnose / review).
+Pro adds the outer loop (L3 event-driven + L4 self-improving loops). Lite is the on-ramp to Standard.
 
 One install gives every team member:
 - 41 curated dev skills across 6 phases (Investigate → Design → Prototype → Implement → Refactor → Review → Ship)
@@ -31,7 +42,7 @@ Not personal-projects scaffolding — use Skill Creator for one-off skills you d
 ### Claude Code
 
 ```sh
-/plugin marketplace add Robo-Co-op/robobuilder
+/plugin marketplace add Robo-Co-op/robobuilder-standard
 /plugin install robobuilder@robo-coop-tools
 /reload-plugins
 ```

@@ -17,7 +17,7 @@ Resolve any `[ERROR]` lines. `[WARN]` lines are advisory.
 Two-step: add the marketplace, then install the plugin.
 
 ```
-/plugin marketplace add Robo-Co-op/robobuilder
+/plugin marketplace add Robo-Co-op/robobuilder-standard
 /plugin install robobuilder@robo-coop-tools
 ```
 
@@ -33,7 +33,7 @@ To enroll an entire repo's contributors, add to your project's `.claude/settings
 {
   "extraKnownMarketplaces": {
     "robo-coop-tools": {
-      "source": { "source": "github", "repo": "Robo-Co-op/robobuilder" }
+      "source": { "source": "github", "repo": "Robo-Co-op/robobuilder-standard" }
     }
   },
   "enabledPlugins": {

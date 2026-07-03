@@ -1,14 +1,14 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-plugin-manifest.json",
   "name": "robobuilder",
-  "version": "1.3.0",
-  "description": "Robo Co-op standard Claude Code dev plugin — embodies Bootcamp v3 M3+M6 with 41 skills, 9 phase-specific agents, 3 playbooks, harness config, and bidirectional Notion learning loop.",
+  "version": "1.4.0",
+  "description": "Robo Builder Standard edition — Robo Co-op standard Claude Code dev plugin embodying Bootcamp v3 M3+M6 with 41 skills, 9 phase-specific agents, 3 playbooks, harness config, and bidirectional Notion learning loop.",
   "author": {
     "name": "Robo Co-op",
     "email": "tools@roboco-op.org"
   },
   "homepage": "https://www.notion.so/Claude-34e5a7e135d2807daec1d83e41d93504",
-  "repository": "https://github.com/Robo-Co-op/robobuilder",
+  "repository": "https://github.com/Robo-Co-op/robobuilder-standard",
   "license": "MIT",
   "keywords": ["robo-co-op", "workflow", "tdd", "bootcamp", "compounding-engineering"],
   "skills": [
