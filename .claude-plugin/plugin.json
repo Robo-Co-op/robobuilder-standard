@@ -34,6 +34,5 @@
     "./agents/security-auditor.md",
     "./agents/e2e-tester.md",
     "./agents/release-notes-writer.md"
-  ],
-  "hooks": "./hooks/hooks.json"
+  ]
 }
