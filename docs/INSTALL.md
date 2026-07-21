@@ -25,6 +25,12 @@ Two-step: add the marketplace, then install the plugin.
 
 After install, run `/reload-plugins` once so skills, agents, and hooks register.
 
+> **Using Claude Code on the web (claude.ai/code)?** The plugin-marketplace flow
+> above assumes a local `~/.claude/plugins/` directory and does not carry over to
+> web sessions. See [CLAUDE_CODE_WEB.md](./CLAUDE_CODE_WEB.md) for the two paths
+> that do work there (committing skills into the repo, or registering them as
+> account-level skills).
+
 ### Team auto-install via project settings
 
 To enroll an entire repo's contributors, add to your project's `.claude/settings.json`:
@@ -125,6 +131,7 @@ Generates a scheduled-routine spec at `${ROBOBUILDER_HOME:-$HOME/.robobuilder}/f
 - **`/browse` errors**: check the target project's Playwright/browser tooling and test command; robobuilder does not install separate browser binaries.
 - **Skill collision**: robobuilder uses `/robobuilder:<name>` namespace by default — global `/<name>` still works if you had it before. No collision.
 - **CLAUDE.md merge wrong**: revert with `/robobuilder:tune-claude-md --revert`.
+- **Skills missing on Claude Code web / plugin install has no effect there**: the web runtime doesn't read `~/.claude/plugins/`. See [CLAUDE_CODE_WEB.md](./CLAUDE_CODE_WEB.md).
 
 ## Updating
 
