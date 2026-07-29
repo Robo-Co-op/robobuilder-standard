@@ -11,10 +11,12 @@ exported as an OpenClaw/Codex skill pack.
 |---|---|---|---|
 | **Lite** | [robobuilder-lite](https://github.com/Robo-Co-op/robobuilder-lite) | Beginners — learn the workflow with 4 commands | 4 merged mega-skills (`plan` / `build` / `improve` / `ship`) + the same hooks and review agents |
 | **Standard** (this repo) | [robobuilder-standard](https://github.com/Robo-Co-op/robobuilder-standard) | Daily development | 41 skills / 9 agents / 6 hooks / 3 playbooks |
-| **Pro** | [robobuilder-pro](https://github.com/Robo-Co-op/robobuilder-pro) | Loop Engineering — autonomous agent loops | Add-on installed **alongside Standard**: design, gate, audit, and compound loops built on native `/goal`, `/loop`, `/batch`, and Routines |
+| **Pro** | [robobuilder-pro](https://github.com/Robo-Co-op/robobuilder-pro) | Loop & Graph Engineering — autonomous agent loops | Add-on installed **alongside Standard**: design, gate, audit, and compound loops built on native `/goal`, `/loop`, `/batch`, and Routines — then wire them into a graph with typed edges, arbitration, and champion-challenger promotion |
 
 Standard covers the inner loop (L1 agent loop + L2 verification: tdd / diagnose / review).
-Pro adds the outer loop (L3 event-driven + L4 self-improving loops). Lite is the on-ramp to Standard.
+Pro adds the outer loop (L3 event-driven + L4 self-improving loops), and above it L5 — a
+*graph* of loops, where reliability lives in the edges: who watches whom, who can veto whom.
+Lite is the on-ramp to Standard.
 
 One install gives every team member:
 - 41 curated dev skills across 6 phases (Investigate → Design → Prototype → Implement → Refactor → Review → Ship)

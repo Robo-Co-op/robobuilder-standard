@@ -45,10 +45,10 @@
         "source": "github",
         "repo": "Robo-Co-op/robobuilder-pro"
       },
-      "description": "Robo Builder Pro — Loop Engineering add-on (install alongside Standard): design, gate, audit, and compound autonomous agent loops on top of native /goal, /loop, /batch, and Routines.",
-      "version": "1.0.0",
+      "description": "Robo Builder Pro — Loop and Graph Engineering add-on (install alongside Standard): design, gate, audit, and compound autonomous agent loops on top of native /goal, /loop, /batch, and Routines, then wire them into a graph with typed edges, arbitration, and champion-challenger promotion.",
+      "version": "1.2.0",
       "category": "development",
-      "tags": ["robo-co-op", "loop-engineering", "autonomy", "compounding-engineering"],
+      "tags": ["robo-co-op", "loop-engineering", "graph-engineering", "autonomy", "compounding-engineering"],
       "license": "MIT",
       "author": {
         "name": "Robo Co-op",
