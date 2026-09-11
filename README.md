@@ -187,6 +187,25 @@ robobuilder skills link bidirectionally to the Bootcamp v3 Notion hub:
 
 Updating Notion best-practice content immediately improves CC usage quality across the team — no plugin re-release needed. See `docs/BOOTCAMP_LINK.md`.
 
+## GitHub ↔ Asana Sync
+
+EN: A GitHub repo's issues and an Asana project's tasks can link bidirectionally too — opening,
+closing, and reopening an issue drives the task; completing the task in Asana closes the issue
+back (polled, since most repos have no hosted webhook receiver).
+
+JP: GitHub リポジトリの Issue と Asana プロジェクトのタスクも双方向にリンクできます — Issue の
+オープン・クローズ・再オープンがタスクに反映され、Asana でタスクを完了にすると Issue もクローズされます
+（多くのリポジトリにはホスティングされた Webhook 受信環境がないため、ポーリング方式です）。
+
+```
+   GitHub Issues (source of truth)
+            ↕
+   Asana tasks (stakeholder mirror)
+```
+
+Reference implementation: `Robo-Co-op/RoboDesk`. See `docs/GITHUB_ASANA_SYNC.md` for the full
+adoption playbook.
+
 ## Attribution
 
 - 🟢 Matt Pocock — [mattpocock/skills](https://github.com/mattpocock/skills) (MIT)
