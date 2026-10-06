@@ -123,7 +123,13 @@ def copy_shared_resources(target: Path) -> None:
 
 def remove_managed_outputs(target: Path) -> None:
     for path in target.glob("robobuilder-*"):
-        if path.is_dir():
+        # Pro/Lite packs share this installation directory. Never erase them.
+        if path.name.startswith(("robobuilder-pro-", "robobuilder-lite-")):
+            continue
+        marker = path / "SKILL.md"
+        if (path.is_dir() and not path.is_symlink() and marker.is_file()
+                and "adapter: openclaw-codex" in marker.read_text(encoding="utf-8")
+                and "source_skill: skills/" in marker.read_text(encoding="utf-8")):
             shutil.rmtree(path)
     shared = target / SHARED_DIR_NAME
     if shared.exists():

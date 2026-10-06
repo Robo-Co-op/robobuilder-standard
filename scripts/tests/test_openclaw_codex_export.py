@@ -56,3 +56,14 @@ def test_openclaw_codex_export_includes_shared_resources_and_manifest(tmp_path: 
     assert manifest["name"] == "robobuilder-openclaw-codex"
     assert manifest["shared"] == "_robobuilder_shared"
     assert "robobuilder-tdd" in manifest["skills"]
+
+
+def test_replace_keeps_pro_lite_and_unmanaged_skills(tmp_path: Path):
+    target = tmp_path / "skills"
+    for name in ("robobuilder-pro-dev-loop", "robobuilder-lite-build", "robobuilder-local"):
+        skill = target / name / "SKILL.md"
+        skill.parent.mkdir(parents=True)
+        skill.write_text("local skill\n")
+    run_export(target)
+    for name in ("robobuilder-pro-dev-loop", "robobuilder-lite-build", "robobuilder-local"):
+        assert (target / name / "SKILL.md").read_text() == "local skill\n"

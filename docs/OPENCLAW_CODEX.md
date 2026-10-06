@@ -95,3 +95,16 @@ Validation:
 ```bash
 pytest scripts/tests/test_openclaw_codex_export.py
 ```
+
+## Pro and Lite coexistence
+
+This exporter covers Standard only. `--replace-existing` preserves sibling
+`robobuilder-pro-*`, `robobuilder-lite-*`, and unmarked local skill directories;
+installing Standard must not erase another product's skills. It still updates
+Standard's generated skills and shared resources.
+
+For Pro's dev-loop on Codex, use Pro's
+[supervised local adapter](https://github.com/Robo-Co-op/robobuilder-pro/blob/main/docs/CODEX_DEV_LOOP.md)
+from the reviewed local patch until it is published. It resolves all three source
+repositories and records actual host-executed steps. Standard's naming adapter
+alone does not implement Pro's persistence, gate, budget or approval boundaries.
