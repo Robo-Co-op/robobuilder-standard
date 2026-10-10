@@ -108,3 +108,12 @@ For Pro's dev-loop on Codex, use Pro's
 from the reviewed local patch until it is published. It resolves all three source
 repositories and records actual host-executed steps. Standard's naming adapter
 alone does not implement Pro's persistence, gate, budget or approval boundaries.
+
+Before changing any output, the exporter checks all generated skill destinations,
+the shared-resource directory and manifest. A same-name local skill, unmanaged
+manifest/shared directory, or linked destination is an error in both export modes;
+`--replace-existing` does not authorize overwriting local content. Existing
+Standard-generated skills are recognized by matching frontmatter and can refresh
+normally. Use a separate empty target or explicitly resolve a local name collision.
+Keep the installation directory stable during export; this preflight is not a
+filesystem isolation boundary against concurrent hostile changes.
