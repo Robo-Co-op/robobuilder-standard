@@ -2,6 +2,24 @@
 
 All notable changes to robobuilder.
 
+## [1.9.0] — 2026-11-11
+
+Secrets had no sanctioned way onto a server, so the unsanctioned ones won: keys pasted into
+chat, and CI workflows that uploaded secrets as base64 artifacts readable by anyone with
+download access. One of those was found and replaced in a Robo Co-op product repo this week.
+
+### Added
+- **`secret-transfer`** (P5 Ship). Delivers GitHub Actions secrets to a machine's `.env`
+  encrypted end to end: the recipient keeps its own RSA-4096 key, and GitHub encrypts only the
+  named secrets to its certificate (OpenSSL CMS, AES-256-GCM). Ships the workflow, a one-command
+  sender and a receiver that never prints values. The workflow fails closed unless it runs from
+  the default branch, the actor is allowlisted and the recipient's fingerprint is approved
+- `scripts/tests/test_secret_transfer.py` runs the workflow's own shell steps (extracted
+  from the YAML) against fake secrets. It checks that only the named secrets are encrypted, that
+  no value is logged, that every guard fails closed, and that a wrong key or a tampered
+  ciphertext does not decrypt
+- CI installs `pyyaml` so that suite runs instead of skipping
+
 ## [1.8.0] — 2026-08-11
 
 Closes out the execution sweep: all 51 confirmed findings are fixed.

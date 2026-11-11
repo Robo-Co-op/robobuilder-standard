@@ -46,7 +46,7 @@
           good enough. Reading the prompt won't find the bugs — running it will.
         </p>
         <div class="hero-meta">
-          <span><b data-claim="skills">41</b> skills, <b data-claim="agents">9</b> agents, <b data-claim="hooks">6</b> lifecycle hooks</span>
+          <span><b data-claim="skills">42</b> skills, <b data-claim="agents">9</b> agents, <b data-claim="hooks">6</b> lifecycle hooks</span>
           <span><b data-claim="sweep_confirmed">51</b> defects found by running them</span>
           <span><b data-claim="tests_floor">255+</b> tests holding the line</span>
         </div>
@@ -208,9 +208,9 @@
             <td><code>plan</code> / <code>build</code> / <code>improve</code> / <code>ship</code>, plus the same hooks and review agents</td>
           </tr>
           <tr>
-            <td class="ed-name standard">Standard <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-faint);font-weight:400;">v<span data-claim="standard_version">1.8.0</span></span></td>
+            <td class="ed-name standard">Standard <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-faint);font-weight:400;">v<span data-claim="standard_version">1.9.0</span></span></td>
             <td>Daily development</td>
-            <td>41 skills across 6 phases, 9 subagents, 6 lifecycle hooks, 3 playbooks</td>
+            <td>42 skills across 6 phases, 9 subagents, 6 lifecycle hooks, 3 playbooks</td>
           </tr>
           <tr>
             <td class="ed-name pro">Pro <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-faint);font-weight:400;">v<span data-claim="pro_version">::error::robobuilder-pro returned an unparseable version: ''</span></span></td>
@@ -266,7 +266,7 @@
     <div class="ledger-group">
       <div class="ledger-repo">
         <span class="repo-name">robobuilder-standard</span>
-        <span class="repo-current">→ current: v<span data-claim="standard_version">1.8.0</span></span>
+        <span class="repo-current">→ current: v<span data-claim="standard_version">1.9.0</span></span>
       </div>
       <div class="table-scroll">
       <table class="ledger">
@@ -286,7 +286,11 @@
           <tr>
             <td class="v"><b>v1.8.0</b></td><td class="tagcell"><span class="tag-pill tag-fixed">fixed</span></td>
             <td class="desc">Closed all <b>51</b> confirmed findings from the execution sweep — including <code>guard</code>, which enforced nothing at all</td>
+          </tr>          <tr>
+            <td class="v"><b>v1.9.0</b></td><td class="tagcell"><span class="tag-pill tag-added">added</span></td>
+            <td class="desc"><b><code>secret-transfer</code></b> — move keys and tokens from GitHub secrets to a server's <code>.env</code> encrypted end to end, behind fail-closed guardrails. No more pasting secrets into chat or base64 artifacts</td>
           </tr>
+
         </tbody>
       </table>
       </div>
