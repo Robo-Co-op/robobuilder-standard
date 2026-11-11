@@ -12,7 +12,7 @@
       "name": "robobuilder",
       "source": "./",
       "description": "Robo Builder Standard — 42 skills, 9 phase-specific agents, 3 playbooks, harness config, bidirectional Notion learning loop.",
-      "version": "1.10.0",
+      "version": "1.10.1",
       "category": "development",
       "tags": [
         "robo-co-op",
@@ -57,7 +57,7 @@
         "repo": "Robo-Co-op/robobuilder-pro"
       },
       "description": "Robo Builder Pro — Loop and Graph Engineering add-on (install alongside Standard): design, gate, audit, and compound autonomous agent loops on top of native /goal, /loop, /batch, and Routines, then wire them into a graph with typed edges, arbitration, and champion-challenger promotion.",
-      "version": "::error::robobuilder-pro returned an unparseable version: ''",
+      "version": "1.4.2",
       "category": "development",
       "tags": [
         "robo-co-op",

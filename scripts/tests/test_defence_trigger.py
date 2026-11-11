@@ -68,13 +68,17 @@ MUST_FIRE = {
     "JWT verify": ("src/session.ts", "+  const claims = verifyJwt(bearer);"),
     "SCREAMING secret": ("src/env.ts", "+const STRIPE_SECRET = process.env.S;"),
     "token bucket": ("src/bucket.go", "+type tokenBucket struct {"),
+    # Deleting a guard is the most dangerous change a defence can get, and the
+    # only one that shows up purely as removed lines.
+    "deleted guard": ("src/api/route.ts", "-  await requireAuth(req);"),
+    "deleted RLS policy": ("supabase/migrations/2.sql", "-create policy owner_only on notes"),
 }
 
 MUST_NOT_FIRE = {
     "author is not auth": ("src/blog.ts", "+  const author = post.author;"),
     "LLM token count": ("src/llm.ts", "+  const tokenCount = usage.tokenCount;"),
     "LLM max tokens": ("src/llm.ts", "+  max_tokens: 1024, inputTokens, outputTokens,"),
-    "removed lines are not added lines": ("src/x.ts", "-  await requireAuth(req);"),
+    "removed doc line": ("docs/SECURITY.md", "-Every route calls requireAuth first."),
     "test file": ("src/auth.test.ts", "+  expect(requireAuth).toThrow();"),
     "python test file": ("tests/test_auth.py", "+def test_rate_limit(): pass"),
     "doc file": ("docs/SECURITY.md", "+Every route calls requireAuth first."),
@@ -101,6 +105,17 @@ def test_headers_alone_do_not_fire():
         "--- a/src/auth/guard.ts\n+++ b/src/auth/guard.ts\n"
         "@@ -10,0 +11,1 @@ export function requireAuth(req) {\n"
         "+  const total = items.length;\n"
+    )
+    assert not fires(diff)
+
+
+def test_deleted_file_header_does_not_fire_and_deleted_test_file_is_skipped():
+    diff = (
+        "diff --git a/src/auth/old.test.ts b/src/auth/old.test.ts\n"
+        "deleted file mode 100644\n"
+        "--- a/src/auth/old.test.ts\n+++ /dev/null\n"
+        "@@ -1,1 +0,0 @@\n"
+        "-  expect(requireAuth(req)).toThrow();\n"
     )
     assert not fires(diff)
 

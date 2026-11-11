@@ -1,13 +1,13 @@
 {
   "standard_version": {
-    "value": "1.10.0",
+    "value": "1.10.1",
     "source": {
       "kind": "plugin_version"
     },
     "note": "Standard's own manifest version."
   },
   "pro_version": {
-    "value": "::error::robobuilder-pro returned an unparseable version: ''",
+    "value": "1.4.2",
     "source": {
       "kind": "marketplace_pin",
       "plugin": "robobuilder-pro"

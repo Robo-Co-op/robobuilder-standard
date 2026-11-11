@@ -31,10 +31,11 @@ Review the current branch's diff (vs `main`) with **subagents running in paralle
    change felt like — run them:
 
    ```sh
-   # Is it a defence? Added lines only, tests and docs skipped, whole words
-   # (camelCase and snake_case are split first, so requireAuth still counts).
+   # Is it a defence? Added and removed lines (deleting a guard counts), tests and
+   # docs skipped, file headers skipped, whole words (camelCase and snake_case are
+   # split first, so requireAuth still counts).
    git diff main...HEAD -U0 \
-     | awk '/^\+\+\+ / { f = substr($0, 5); skip = f ~ /(^|\/)(docs?|tests?|__tests__|e2e|fixtures?)\// || f ~ /\.(md|mdx|txt|rst)$/ || f ~ /([._]test|[._]spec)\.[^\/]*$/ || f ~ /\/test_[^\/]*$/; next } /^\+/ && !skip' \
+     | awk '/^diff --git / { f = $NF; hdr = 1; skip = f ~ /(^|\/)(docs?|tests?|__tests__|e2e|fixtures?)\// || f ~ /\.(md|mdx|txt|rst)$/ || f ~ /([._]test|[._]spec)\.[^\/]*$/ || f ~ /\/test_[^\/]*$/; next } /^@@/ { hdr = 0; next } !hdr && !skip && /^[+-]/' \
      | LC_ALL=C sed -E 's/([a-z0-9])([A-Z])/\1 \2/g; s/([A-Z])([A-Z][a-z])/\1 \2/g' \
      | tr 'A-Z_-' 'a-z  ' \
      | sed -E 's/token +(count|usage|budget|limit)s?//g' \
