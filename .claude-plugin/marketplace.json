@@ -57,7 +57,7 @@
         "repo": "Robo-Co-op/robobuilder-pro"
       },
       "description": "Robo Builder Pro — Loop and Graph Engineering add-on (install alongside Standard): design, gate, audit, and compound autonomous agent loops on top of native /goal, /loop, /batch, and Routines, then wire them into a graph with typed edges, arbitration, and champion-challenger promotion.",
-      "version": "::error::robobuilder-pro returned an unparseable version: ''",
+      "version": "1.4.2",
       "category": "development",
       "tags": [
         "robo-co-op",

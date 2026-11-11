@@ -58,21 +58,31 @@ jobs:
 
       - name: Read what robobuilder-pro and robobuilder-lite actually publish
         id: latest
+        env:
+          # robobuilder-pro is private: the default token cannot read it, and an
+          # anonymous raw.githubusercontent.com fetch 404s. PINS_READ_TOKEN (a
+          # fine-grained token with Contents: read on both repos) lets Pro sync;
+          # without it Pro's pin is left alone and Lite still syncs.
+          GH_TOKEN: ${{ secrets.PINS_READ_TOKEN || github.token }}
         run: |
-          set -euo pipefail
+          set -uo pipefail
+          # Prints the version, or nothing. Never prints an error on stdout: this
+          # runs inside $(...), and on 2026-08-27 an error echoed here was captured
+          # and published as robobuilder-pro's version.
           fetch_version() {
-            local repo="$1"
-            local v
-            v=$(curl -fsSL "https://raw.githubusercontent.com/Robo-Co-op/${repo}/main/.claude-plugin/plugin.json" \
-              | python3 -c "import json,sys;print(json.load(sys.stdin)['version'])")
-            if ! [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
-              echo "::error::${repo} returned an unparseable version: '${v}'"
-              exit 1
+            local repo="$1" v
+            v=$(gh api "repos/Robo-Co-op/${repo}/contents/.claude-plugin/plugin.json" \
+                  -H "Accept: application/vnd.github.raw" --jq .version 2>/dev/null) || v=""
+            if [[ "$v" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]; then
+              printf '%s' "$v"
+            else
+              echo "::warning::could not read ${repo}'s version (got '${v}'); leaving its pin unchanged" >&2
             fi
-            printf '%s' "$v"
           }
-          echo "pro=$(fetch_version robobuilder-pro)" >> "$GITHUB_OUTPUT"
-          echo "lite=$(fetch_version robobuilder-lite)" >> "$GITHUB_OUTPUT"
+          pro=$(fetch_version robobuilder-pro)
+          lite=$(fetch_version robobuilder-lite)
+          echo "pro=${pro}" >> "$GITHUB_OUTPUT"
+          echo "lite=${lite}" >> "$GITHUB_OUTPUT"
 
       - name: Update the pins and the site's copy together, if they drifted
         id: update
@@ -84,6 +94,8 @@ jobs:
           import json, os, pathlib, re
 
           wanted = {"robobuilder-pro": os.environ["PRO_V"], "robobuilder-lite": os.environ["LITE_V"]}
+          # A pin is a version or nothing; anything else is skipped, never written.
+          wanted = {k: v for k, v in wanted.items() if re.fullmatch(r"\d+\.\d+\.\d+", v)}
           claim_id = {"robobuilder-pro": "pro_version", "robobuilder-lite": "lite_version"}
 
           marketplace_path = pathlib.Path(".claude-plugin/marketplace.json")
