@@ -1,6 +1,6 @@
 {
   "standard_version": {
-    "value": "1.8.0",
+    "value": "1.9.0",
     "source": {
       "kind": "plugin_version"
     },
@@ -23,7 +23,7 @@
     "note": "Same as pro_version -- pinned here, synced by sync-marketplace-pins.yml."
   },
   "skills": {
-    "value": 41,
+    "value": 42,
     "source": {
       "kind": "count_skills"
     },
