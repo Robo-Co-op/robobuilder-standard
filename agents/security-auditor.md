@@ -23,7 +23,7 @@ You are a security reviewer applying **OWASP Top 10 2021** against the Robo Co-o
 
 ## Procedure
 
-1. Get `git diff main...HEAD` or target files.
+1. Review the diff in your prompt. Only if none was given, run `git diff main...HEAD` or read the target files. Open a file only to confirm a specific finding.
 2. Check each category (skip irrelevant ones).
 3. Rate severity High / Medium / Low.
 4. Give a concrete fix (library name, code snippet).

@@ -39,7 +39,9 @@ The heavyweight version of `/diff-review`. Its defining trait: **keep running ro
   ```
 
 ### Rounds 1–N: Parallel review → fix → re-review
-In each round, invoke the following subagents **in parallel**:
+In each round, invoke the following subagents **in parallel**, giving each one the
+round's current diff (`git diff main...HEAD`, re-taken after the last round's fixes) in
+its prompt rather than having it re-read the repo — as `/diff-review` does:
 1. `code-simplifier` — redundancy, abstraction, naming
 2. `test-writer` — missing tests
 3. `security-auditor` — OWASP

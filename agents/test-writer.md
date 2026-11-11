@@ -14,7 +14,7 @@ You are a test design specialist applying Robo Co-op testing principles:
 
 ## Procedure
 
-1. Read the target file. Find existing test files via Grep for `*.test.*`, `*.spec.*`, `test_*.py`.
+1. Start from the diff in your prompt (if none was given, read the target file). Find existing test files via Grep for `*.test.*`, `*.spec.*`, `test_*.py`, and read only the tests that cover the changed code.
 2. Audit these case categories:
    - **Happy path**: the main expected flow
    - **Boundary**: empty array, null, 0, max

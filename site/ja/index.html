@@ -207,7 +207,7 @@
             <td><code>plan</code> / <code>build</code> / <code>improve</code> / <code>ship</code>、同じフックとレビューエージェント</td>
           </tr>
           <tr>
-            <td class="ed-name standard">Standard <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-faint);font-weight:400;">v<span data-claim="standard_version">1.9.0</span></span></td>
+            <td class="ed-name standard">Standard <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-faint);font-weight:400;">v<span data-claim="standard_version">1.10.0</span></span></td>
             <td>日々の開発</td>
             <td>6フェーズにまたがる42スキル、9つのサブエージェント、6つのライフサイクルフック、3つのプレイブック</td>
           </tr>
@@ -265,7 +265,7 @@
     <div class="ledger-group">
       <div class="ledger-repo">
         <span class="repo-name">robobuilder-standard</span>
-        <span class="repo-current">→ 現在: v<span data-claim="standard_version">1.9.0</span></span>
+        <span class="repo-current">→ 現在: v<span data-claim="standard_version">1.10.0</span></span>
       </div>
       <div class="table-scroll">
       <table class="ledger">
@@ -289,6 +289,9 @@
           <tr>
             <td class="v"><b>v1.9.0</b></td><td class="tagcell"><span class="tag-pill tag-added">added</span></td>
             <td class="desc"><b><code>secret-transfer</code></b> ― GitHub シークレットのキーやトークンを、エンドツーエンド暗号化でサーバーの <code>.env</code> へ。フェイルクローズのガード付き。チャットへの貼り付けや base64 アーティファクトはもう不要</td>
+          <tr>
+            <td class="v"><b>v1.10.0</b></td><td class="tagcell"><span class="tag-pill tag-fixed">fixed</span></td>
+            <td class="desc"><code>diff-review</code> のトークン消費を削減 ― セキュリティに関わらない小さな差分はインラインでレビュー、レビュアーには差分だけを渡し、<code>code-simplifier</code> は haiku で実行</td>
           </tr>
 
         </tbody>
