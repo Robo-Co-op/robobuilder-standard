@@ -113,16 +113,16 @@ def test_encrypt_rejects_unknown_or_malformed_names(recipient, names):
 
 
 def test_apply_updates_env_file_with_backup_and_0600(recipient):
-    assert _encrypt(recipient, "A_KEY,B_KEY", {"A_KEY": "new", "B_KEY": "with space"}).returncode == 0
+    assert _encrypt(recipient, "A_KEY,B_KEY", {"A_KEY": "fresh-9zq", "B_KEY": "with space"}).returncode == 0
     env = recipient["dir"] / "app.env"
     env.write_text("KEEP=1\nA_KEY=old\n")
     r = _recv("apply", "secrets.cms", "--dir", str(recipient["keys"]), "--env-file", str(env),
               "--map", "B_KEY=RENAMED", cwd=recipient["dir"])
     assert r.returncode == 0, r.stderr
-    assert env.read_text() == "KEEP=1\nA_KEY=new\nRENAMED='with space'\n"
+    assert env.read_text() == "KEEP=1\nA_KEY=fresh-9zq\nRENAMED='with space'\n"
     assert oct(env.stat().st_mode & 0o777) == "0o600"
     assert list(recipient["dir"].glob("app.env.bak-secret-transfer-*"))
-    assert "new" not in r.stdout
+    assert "fresh-9zq" not in r.stdout + r.stderr and "with space" not in r.stdout + r.stderr
 
 
 def test_wrong_key_and_tampered_ciphertext_do_not_decrypt(recipient):
