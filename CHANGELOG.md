@@ -2,6 +2,23 @@
 
 All notable changes to robobuilder.
 
+## [1.10.1] — 2026-11-11
+
+### Fixed
+- **The marketplace and site showed an error message as robobuilder-pro's version**
+  from 2026-08-27 until now. Pro's repo is private, so the pin-sync bot's anonymous
+  fetch 404'd. Its error went to stdout inside `$(...)`, where `set -e` does not fire,
+  so the bot published the error text as the version. Pro is restored to 1.4.2. The bot
+  now reads versions through `gh api`, using the `PINS_READ_TOKEN` secret when it is
+  set. A version it cannot read, or one that is not semver, leaves that pin alone and
+  warns, and the other pin still syncs. The update step checks semver again before
+  writing. `scripts/tests/test_marketplace_pin_sync.py` checks that every pin and
+  version claim is semver, and runs the workflow's own steps against a fake `gh`.
+- **`diff-review`'s `DEFENCE` gate fires again on diffs that only delete a guard.**
+  1.10.0 matched added lines only, so a small diff removing `requireAuth(req)` could
+  be reviewed inline. It now matches added and removed lines and still skips file
+  headers, tests and docs. Same fix as robobuilder-lite 1.5.1.
+
 ## [1.10.0] — 2026-11-11
 
 `diff-review` spent three subagent runs on every diff, including one-line fixes, and

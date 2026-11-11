@@ -12,7 +12,7 @@
       "name": "robobuilder",
       "source": "./",
       "description": "Robo Builder Standard — 42 skills, 9 phase-specific agents, 3 playbooks, harness config, bidirectional Notion learning loop.",
-      "version": "1.10.0",
+      "version": "1.10.1",
       "category": "development",
       "tags": [
         "robo-co-op",

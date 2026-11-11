@@ -208,7 +208,7 @@
             <td><code>plan</code> / <code>build</code> / <code>improve</code> / <code>ship</code>, plus the same hooks and review agents</td>
           </tr>
           <tr>
-            <td class="ed-name standard">Standard <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-faint);font-weight:400;">v<span data-claim="standard_version">1.10.0</span></span></td>
+            <td class="ed-name standard">Standard <span style="font-family:var(--font-mono);font-size:0.72rem;color:var(--ink-faint);font-weight:400;">v<span data-claim="standard_version">1.10.1</span></span></td>
             <td>Daily development</td>
             <td>42 skills across 6 phases, 9 subagents, 6 lifecycle hooks, 3 playbooks</td>
           </tr>
@@ -266,7 +266,7 @@
     <div class="ledger-group">
       <div class="ledger-repo">
         <span class="repo-name">robobuilder-standard</span>
-        <span class="repo-current">→ current: v<span data-claim="standard_version">1.10.0</span></span>
+        <span class="repo-current">→ current: v<span data-claim="standard_version">1.10.1</span></span>
       </div>
       <div class="table-scroll">
       <table class="ledger">
@@ -293,6 +293,9 @@
           <tr>
             <td class="v"><b>v1.10.0</b></td><td class="tagcell"><span class="tag-pill tag-fixed">fixed</span></td>
             <td class="desc"><code>diff-review</code> costs fewer tokens: small, non-security diffs are reviewed inline, reviewers get only the diff, and <code>code-simplifier</code> runs on haiku</td>
+          <tr>
+            <td class="v"><b>v1.10.1</b></td><td class="tagcell"><span class="tag-pill tag-fixed">fixed</span></td>
+            <td class="desc">The site showed an error message as Pro's version; it now shows the real one, and the sync bot can no longer publish a non-version. <code>diff-review</code> again treats deleting a guard as a security change</td>
           </tr>
 
         </tbody>
