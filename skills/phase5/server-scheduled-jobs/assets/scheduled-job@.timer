@@ -1,0 +1,15 @@
+# Schedule for scheduled-job@<job>.service. Default: every 15 minutes.
+# Per-job schedule: install-job.sh writes a drop-in, or `systemctl edit scheduled-job@<job>.timer`:
+#   [Timer]
+#   OnCalendar=
+#   OnCalendar=hourly
+[Unit]
+Description=Schedule for job %i
+
+[Timer]
+OnCalendar=*:0/15
+RandomizedDelaySec=60
+Persistent=true
+
+[Install]
+WantedBy=timers.target

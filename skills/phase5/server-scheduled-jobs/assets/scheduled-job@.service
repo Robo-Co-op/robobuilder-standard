@@ -1,0 +1,27 @@
+# One scheduled job, run on the server instead of a GitHub Actions cron.
+# Instance name = job name: scheduled-job@asana-sync.service reads /etc/scheduled-jobs/asana-sync.env
+[Unit]
+Description=Scheduled job %i
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+User=scheduled-jobs
+Group=scheduled-jobs
+# Read by systemd as root, so the file stays root:root 0600 and jobs can't read each other's secrets.
+EnvironmentFile=/etc/scheduled-jobs/%i.env
+# npm/pip caches need a writable home; give each job its own.
+Environment=HOME=/var/lib/scheduled-jobs/%i
+ExecStart=/opt/scheduled-jobs/run-job.sh %i
+StateDirectory=scheduled-jobs/%i
+StateDirectoryMode=0700
+TimeoutStartSec=20min
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectSystem=strict
+ProtectHome=yes
+CapabilityBoundingSet=
+RestrictSUIDSGID=yes
+LockPersonality=yes
+UMask=0077
