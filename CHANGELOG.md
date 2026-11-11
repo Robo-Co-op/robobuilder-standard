@@ -2,6 +2,26 @@
 
 All notable changes to robobuilder.
 
+## [1.10.0] — 2026-11-11
+
+`diff-review` spent three subagent runs on every diff, including one-line fixes, and
+each agent re-read the repo to find a diff it could have been handed. Ported from
+robobuilder-lite 1.5.0.
+
+### Changed
+- **Small, harmless diffs are reviewed inline.** If the diff is ≤ 50 lines (by
+  `--numstat`) and neither `DEFENCE` nor `RENDERS` fires, `diff-review` does the three
+  review passes itself and dispatches no agents. `DEFENCE` is a new mechanical check
+  that matches whole words on added lines, splits camelCase and snake_case first so
+  `requireAuth` still fires, and skips test and doc files. It over-fires on purpose,
+  so a small guard change still gets the full agent review.
+  `scripts/tests/test_defence_trigger.py` runs that pipeline against 21 concrete
+  diffs: guards that must fire and lookalikes that must not.
+- **Agents get the diff, not the repo**, in `diff-review` and in every `cross-review`
+  round. `code-simplifier`, `test-writer` and `security-auditor` now start from the diff
+  in their prompt instead of re-running `git diff` or reading whole files.
+- **`code-simplifier` runs on haiku.**
+
 ## [1.9.0] — 2026-11-11
 
 Secrets had no sanctioned way onto a server, so the unsanctioned ones won: keys pasted into
