@@ -117,3 +117,7 @@ Standard-generated skills are recognized by matching frontmatter and can refresh
 normally. Use a separate empty target or explicitly resolve a local name collision.
 Keep the installation directory stable during export; this preflight is not a
 filesystem isolation boundary against concurrent hostile changes.
+
+A generated Standard skill can move categories when its previous source path no longer exists and the existing Standard manifest lists its output. Current source frontmatter aliases can refresh as well. This does not authorize replacing an unmanaged collision; unknown stale aliases are preserved.
+
+Standard source skill names beginning with `pro-` or `lite-` are reserved for the other products and are rejected before any output mutation, including on a fresh target.

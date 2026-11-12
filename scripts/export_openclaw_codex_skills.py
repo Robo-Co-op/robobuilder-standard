@@ -53,6 +53,8 @@ def skill_name(source: Path) -> str:
     name = frontmatter_value(frontmatter, "name")
     if not name:
         raise ValueError(f"{source} is missing frontmatter name")
+    if name.startswith(("pro-", "lite-")):
+        raise ValueError(f"Standard exporter cannot claim another product namespace: {name}")
     return name
 
 
@@ -122,20 +124,62 @@ def copy_shared_resources(target: Path) -> None:
         shutil.copy2(REPO_ROOT / filename, shared / filename)
 
 
+def prior_standard_member(path: Path) -> bool:
+    """Use the existing product manifest to corroborate legacy output ownership."""
+    manifest = path.parent / "manifest.json"
+    if manifest.is_symlink() or not manifest.is_file():
+        return False
+    try:
+        data = json.loads(manifest.read_text(encoding="utf-8"))
+        return (
+            isinstance(data, dict)
+            and data.get("name") == "robobuilder-openclaw-codex"
+            and data.get("source") == "https://github.com/Robo-Co-op/robobuilder-standard"
+            and data.get("shared") == SHARED_DIR_NAME
+            and isinstance(data.get("skills"), list)
+            and path.name in data["skills"]
+        )
+    except (ValueError, OSError):
+        return False
+
+
 def managed_skill(path: Path, source: Path | None = None) -> bool:
-    """Recognize our frontmatter, never an incidental marker in a local body."""
+    """Recognize generated ownership without tying a skill to its old category."""
     marker = path / "SKILL.md"
     if path.is_symlink() or not path.is_dir() or marker.is_symlink() or not marker.is_file():
         return False
     try:
         fm, _ = split_frontmatter(marker.read_text(encoding="utf-8"))
         rel = frontmatter_value(fm, "source_skill")
-        return (
+        if not (
             frontmatter_value(fm, "adapter") == "openclaw-codex"
             and frontmatter_value(fm, "name") == path.name
             and re.fullmatch(r"skills/(?:[a-zA-Z0-9_-]+/)+SKILL\.md", rel) is not None
-            and path.name == "robobuilder-" + Path(rel).parent.name
-            and (source is None or rel == source.relative_to(REPO_ROOT).as_posix())
+        ):
+            return False
+        old_source = REPO_ROOT / rel
+        conventional_name = path.name == "robobuilder-" + Path(rel).parent.name
+        if source is not None:
+            current_rel = source.relative_to(REPO_ROOT).as_posix()
+            if rel == current_rel:
+                # Frontmatter names are already accepted by initial export and may
+                # legitimately differ from the source directory basename.
+                return True
+            return (
+                conventional_name
+                and not old_source.exists()
+                and not old_source.is_symlink()
+                and prior_standard_member(path)
+            )
+        if conventional_name:
+            return True
+        # A current, named source plus the Standard manifest also identifies
+        # generated aliases during replace cleanup. Unknown stale aliases stay.
+        return (
+            old_source.is_file()
+            and not old_source.is_symlink()
+            and path.name == "robobuilder-" + skill_name(old_source)
+            and prior_standard_member(path)
         )
     except (ValueError, OSError):
         return False
