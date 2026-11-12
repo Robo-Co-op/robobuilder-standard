@@ -9,6 +9,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 from pathlib import Path
 
@@ -52,6 +53,8 @@ def skill_name(source: Path) -> str:
     name = frontmatter_value(frontmatter, "name")
     if not name:
         raise ValueError(f"{source} is missing frontmatter name")
+    if name.startswith(("pro-", "lite-")):
+        raise ValueError(f"Standard exporter cannot claim another product namespace: {name}")
     return name
 
 
@@ -121,9 +124,103 @@ def copy_shared_resources(target: Path) -> None:
         shutil.copy2(REPO_ROOT / filename, shared / filename)
 
 
+def prior_standard_member(path: Path) -> bool:
+    """Use the existing product manifest to corroborate legacy output ownership."""
+    manifest = path.parent / "manifest.json"
+    if manifest.is_symlink() or not manifest.is_file():
+        return False
+    try:
+        data = json.loads(manifest.read_text(encoding="utf-8"))
+        return (
+            isinstance(data, dict)
+            and data.get("name") == "robobuilder-openclaw-codex"
+            and data.get("source") == "https://github.com/Robo-Co-op/robobuilder-standard"
+            and data.get("shared") == SHARED_DIR_NAME
+            and isinstance(data.get("skills"), list)
+            and path.name in data["skills"]
+        )
+    except (ValueError, OSError):
+        return False
+
+
+def managed_skill(path: Path, source: Path | None = None) -> bool:
+    """Recognize generated ownership without tying a skill to its old category."""
+    marker = path / "SKILL.md"
+    if path.is_symlink() or not path.is_dir() or marker.is_symlink() or not marker.is_file():
+        return False
+    try:
+        fm, _ = split_frontmatter(marker.read_text(encoding="utf-8"))
+        rel = frontmatter_value(fm, "source_skill")
+        if not (
+            frontmatter_value(fm, "adapter") == "openclaw-codex"
+            and frontmatter_value(fm, "name") == path.name
+            and re.fullmatch(r"skills/(?:[a-zA-Z0-9_-]+/)+SKILL\.md", rel) is not None
+        ):
+            return False
+        old_source = REPO_ROOT / rel
+        conventional_name = path.name == "robobuilder-" + Path(rel).parent.name
+        if source is not None:
+            current_rel = source.relative_to(REPO_ROOT).as_posix()
+            if rel == current_rel:
+                # Frontmatter names are already accepted by initial export and may
+                # legitimately differ from the source directory basename.
+                return True
+            return (
+                conventional_name
+                and not old_source.exists()
+                and not old_source.is_symlink()
+                and prior_standard_member(path)
+            )
+        if conventional_name:
+            return True
+        # A current, named source plus the Standard manifest also identifies
+        # generated aliases during replace cleanup. Unknown stale aliases stay.
+        return (
+            old_source.is_file()
+            and not old_source.is_symlink()
+            and path.name == "robobuilder-" + skill_name(old_source)
+            and prior_standard_member(path)
+        )
+    except (ValueError, OSError):
+        return False
+
+
+def preflight(target: Path, sources: list[Path]) -> None:
+    # Validate EVERY destination before deleting or writing ANY output.
+    for parent in (target, *target.parents):
+        if parent.is_symlink() or (parent.exists() and not parent.is_dir()):
+            raise ValueError(f"Unsafe export directory: {parent}")
+    for source in sources:
+        path = target / f"robobuilder-{skill_name(source)}"
+        if path.is_symlink() or ((path.exists()) and not managed_skill(path, source)):
+            raise ValueError(f"Refusing unmanaged or linked skill destination: {path}")
+    manifest = target / "manifest.json"
+    owned_manifest = False
+    if manifest.is_symlink():
+        raise ValueError("Refusing linked manifest")
+    if manifest.exists():
+        if not manifest.is_file():
+            raise ValueError("Refusing non-file manifest")
+        try:
+            data = json.loads(manifest.read_text(encoding="utf-8"))
+            owned_manifest = (isinstance(data, dict)
+                              and data.get("name") == "robobuilder-openclaw-codex"
+                              and data.get("source") == "https://github.com/Robo-Co-op/robobuilder-standard"
+                              and data.get("shared") == SHARED_DIR_NAME)
+        except (ValueError, OSError):
+            pass
+        if not owned_manifest:
+            raise ValueError("Refusing unmanaged manifest")
+    shared = target / SHARED_DIR_NAME
+    if shared.is_symlink() or (shared.exists() and (not shared.is_dir() or not owned_manifest)):
+        raise ValueError("Refusing unmanaged or linked shared resource directory")
+
+
 def remove_managed_outputs(target: Path) -> None:
     for path in target.glob("robobuilder-*"):
-        if path.is_dir():
+        if path.name.startswith(("robobuilder-pro-", "robobuilder-lite-")):
+            continue
+        if managed_skill(path):
             shutil.rmtree(path)
     shared = target / SHARED_DIR_NAME
     if shared.exists():
@@ -131,18 +228,19 @@ def remove_managed_outputs(target: Path) -> None:
 
 
 def export_skills(target: Path, replace_existing: bool) -> list[Path]:
+    target = target.expanduser().absolute()  # Keep symlinks visible to preflight.
+    sources = sorted((REPO_ROOT / "skills").rglob("SKILL.md"))
+    generated = [(source, generated_skill_text(source)) for source in sources]
+    preflight(target, sources)
     target.mkdir(parents=True, exist_ok=True)
     if replace_existing:
         remove_managed_outputs(target)
-
     copy_shared_resources(target)
-
     written: list[Path] = []
-    for source in sorted((REPO_ROOT / "skills").rglob("SKILL.md")):
-        name = skill_name(source)
-        destination = target / f"robobuilder-{name}" / "SKILL.md"
+    for source, text in generated:
+        destination = target / f"robobuilder-{skill_name(source)}" / "SKILL.md"
         destination.parent.mkdir(parents=True, exist_ok=True)
-        destination.write_text(generated_skill_text(source), encoding="utf-8")
+        destination.write_text(text, encoding="utf-8")
         written.append(destination)
 
     manifest = {
@@ -171,7 +269,7 @@ def main() -> int:
     )
     args = parser.parse_args()
 
-    written = export_skills(args.target.expanduser().resolve(), args.replace_existing)
+    written = export_skills(args.target.expanduser().absolute(), args.replace_existing)
     print(f"Exported {len(written)} RoboBuilder skills to {args.target}")
     print(f"Shared resources: {args.target / SHARED_DIR_NAME}")
     return 0
