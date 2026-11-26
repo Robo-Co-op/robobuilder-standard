@@ -95,3 +95,29 @@ Validation:
 ```bash
 pytest scripts/tests/test_openclaw_codex_export.py
 ```
+
+## Pro and Lite coexistence
+
+This exporter covers Standard only. `--replace-existing` preserves sibling
+`robobuilder-pro-*`, `robobuilder-lite-*`, and unmarked local skill directories;
+installing Standard must not erase another product's skills. It still updates
+Standard's generated skills and shared resources.
+
+For Pro's dev-loop on Codex, use Pro's
+[supervised local adapter](https://github.com/Robo-Co-op/robobuilder-pro/blob/main/docs/CODEX_DEV_LOOP.md)
+from the reviewed local patch until it is published. It resolves all three source
+repositories and records actual host-executed steps. Standard's naming adapter
+alone does not implement Pro's persistence, gate, budget or approval boundaries.
+
+Before changing any output, the exporter checks all generated skill destinations,
+the shared-resource directory and manifest. A same-name local skill, unmanaged
+manifest/shared directory, or linked destination is an error in both export modes;
+`--replace-existing` does not authorize overwriting local content. Existing
+Standard-generated skills are recognized by matching frontmatter and can refresh
+normally. Use a separate empty target or explicitly resolve a local name collision.
+Keep the installation directory stable during export; this preflight is not a
+filesystem isolation boundary against concurrent hostile changes.
+
+A generated Standard skill can move categories when its previous source path no longer exists and the existing Standard manifest lists its output. Current source frontmatter aliases can refresh as well. This does not authorize replacing an unmanaged collision; unknown stale aliases are preserved.
+
+Standard source skill names beginning with `pro-` or `lite-` are reserved for the other products and are rejected before any output mutation, including on a fresh target.
