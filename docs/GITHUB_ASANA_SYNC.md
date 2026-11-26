@@ -71,16 +71,36 @@ JP: `issues: reopened` イベントでトリガーされます。作業が実際
 ## Direction D: Asana task completed → GitHub issue closed
 
 EN: Asana has no outgoing webhook here, because that needs a small hosted receiver — nothing this
-lightweight has one by default. Instead, a second workflow runs on a schedule (every ~15 minutes,
-plus `workflow_dispatch` for an on-demand run), lists the repo's open issues, and for each one with
-an Asana link, checks whether that task is now complete. If it is, the workflow closes the issue
-(as completed) and leaves a comment pointing back to the task.
+lightweight has one by default. Instead, a second job runs on a schedule (plus `workflow_dispatch`
+for an on-demand run), lists the repo's open issues, and for each one with an Asana link, checks
+whether that task is now complete. If it is, the job closes the issue (as completed) and leaves a
+comment pointing back to the task.
+
+**Where to schedule it (cost):** on a private repo, GitHub bills every Actions run as at least one
+full minute. RoboDesk's original `*/15` schedule costs up to ~2,880 minutes a month per repo — more
+than the org's whole free allowance — and when the org's Actions budget runs out, **all** Actions
+stop. So:
+- **Preferred:** run it from a timer on a server with `/robobuilder:server-scheduled-jobs`. Any
+  frequency is free there. It needs a GitHub token that can close issues on that one repo
+  (fine-grained PAT, *Issues: read & write* only) plus `ASANA_PAT`, both delivered with
+  `/robobuilder:secret-transfer`.
+- **No server:** keep it in Actions but schedule it **hourly at most** (`cron: "7 * * * *"`).
+  An issue then closes up to an hour after its task completes.
 
 JP: この方向には Asana からの Webhook を使用していません。Webhook の受信には小規模なホスティング環境が
 必要ですが、この軽量な仕組みにはデフォルトで用意されていないためです。代わりに、2つ目のワークフローが
-スケジュール実行（約15分ごと、加えて `workflow_dispatch` によるオンデマンド実行も可能）され、リポジトリの
+スケジュール実行（加えて `workflow_dispatch` によるオンデマンド実行も可能）され、リポジトリの
 オープンな Issue を一覧化し、Asana リンクを持つものについてタスクが完了しているかを確認します。完了して
 いれば、Issue を（completed として）クローズし、タスクへのリンクを含むコメントを残します。
+
+**スケジュールの置き場所（コスト）:** プライベートリポジトリでは、GitHub Actions は1回の実行ごとに最低1分
+課金されます。RoboDesk の当初の `*/15` スケジュールはリポジトリあたり月最大約2,880分を消費し、組織の無料枠
+全体を超えます。組織の Actions 予算を使い切ると、**すべての** Actions が停止します。そのため:
+- **推奨:** `/robobuilder:server-scheduled-jobs` でサーバーのタイマーから実行します。サーバー上なら頻度に
+  関係なく無料です。そのリポジトリの Issue をクローズできる GitHub トークン（fine-grained PAT、
+  *Issues: read & write* のみ）と `ASANA_PAT` が必要で、どちらも `/robobuilder:secret-transfer` で届けます。
+- **サーバーがない場合:** Actions に残し、スケジュールは **最大でも1時間ごと**（`cron: "7 * * * *"`）にします。
+  タスク完了から Issue のクローズまで最大1時間かかります。
 
 > EN: If your repo *does* have a hosted endpoint (a Vercel/Supabase function, a small server), an
 > Asana webhook (`POST /webhooks` on a task or project, with a signature you validate) makes
@@ -111,6 +131,10 @@ JP: この方向には Asana からの Webhook を使用していません。Web
    `asana-github-sync.yml` and `asana-github-reverse-sync.yml`.
    / `Robo-Co-op/RoboDesk` の `.github/workflows/` から **両方のワークフローファイルをコピーします**:
    `asana-github-sync.yml` と `asana-github-reverse-sync.yml`。
+   **Then fix the reverse sync's schedule before committing** — move it to a server timer, or change
+   `*/15 * * * *` to hourly (see Direction D, "Where to schedule it").
+   / **コミット前に逆方向同期のスケジュールを修正してください** ― サーバーのタイマーに移すか、
+   `*/15 * * * *` を1時間ごとに変更します（Direction D の「スケジュールの置き場所」を参照）。
 5. **Replace the `ASANA_PROJECT_GID` value** in both files with your project's GID from step 1.
    (Not a secret — just an ID — safe to commit in plain text.)
    / 両方のファイル内の **`ASANA_PROJECT_GID` の値を手順1の GID に置き換えます**（シークレットではなく

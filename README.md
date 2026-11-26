@@ -10,7 +10,7 @@ exported as an OpenClaw/Codex skill pack.
 | Edition | Repo | Who it's for | Contents |
 |---|---|---|---|
 | **Lite** | [robobuilder-lite](https://github.com/Robo-Co-op/robobuilder-lite) | Beginners — learn the workflow with 4 commands | 4 merged mega-skills (`plan` / `build` / `improve` / `ship`) + the same hooks and review agents |
-| **Standard** (this repo) | [robobuilder-standard](https://github.com/Robo-Co-op/robobuilder-standard) | Daily development | 42 skills / 9 agents / 6 hooks / 3 playbooks |
+| **Standard** (this repo) | [robobuilder-standard](https://github.com/Robo-Co-op/robobuilder-standard) | Daily development | 43 skills / 9 agents / 6 hooks / 3 playbooks |
 | **Pro** | [robobuilder-pro](https://github.com/Robo-Co-op/robobuilder-pro) | Loop & Graph Engineering — autonomous agent loops | Add-on installed **alongside Standard**: design, gate, audit, and compound loops built on native `/goal`, `/loop`, `/batch`, and Routines — then wire them into a graph with typed edges, arbitration, and champion-challenger promotion |
 
 Standard covers the inner loop (L1 agent loop + L2 verification: tdd / diagnose / review).
@@ -52,7 +52,7 @@ A repository declares which OS version it follows by copying
 belongs in this repo — if it decides whether a change may advance, it belongs in the OS.
 
 One install gives every team member:
-- 42 curated dev skills across 6 phases (Investigate → Design → Prototype → Implement → Refactor → Review → Ship)
+- 43 curated dev skills across 6 phases (Investigate → Design → Prototype → Implement → Refactor → Review → Ship)
 - 9 phase-specific subagents
 - 3 multi-skill playbooks
 - An onboarding wizard, a CLAUDE.md tuning wizard, and a semver upgrade flow
@@ -157,7 +157,7 @@ environment". Use the desktop app's plugin browser, or declare the plugin in
 
 Full chart: `docs/WORKFLOW.md`. Decision tree: `docs/DECISION_FLOW.md`. Runtime helper contract: `docs/RUNTIME.md`.
 
-## All 42 skills, in workflow order
+## All 43 skills, in workflow order
 
 Every skill description starts with a phase tag (e.g. `[P1-1 Design]`) so the alphabetical `/plugin` list still reads in workflow order. Within each phase, skills are ordered by practical usage order and frequency.
 
@@ -171,7 +171,7 @@ Every skill description starts with a phase tag (e.g. `[P1-1 Design]`) so the al
 | P3 Implement | `triage` → `tdd` → `caveman` → `browse` → `learn` |
 | P3.5 Refactor | `improve-codebase-architecture` → `request-refactor-plan` |
 | P4 Review | `diff-review` → `cross-review` → `grill` → `cso` |
-| P5 Ship | `ship` → `secret-transfer` → `land-and-deploy` → `canary` → `handoff` → `write-a-skill` |
+| P5 Ship | `ship` → `secret-transfer` → `server-scheduled-jobs` → `land-and-deploy` → `canary` → `handoff` → `write-a-skill` |
 | Utilities | `guard` → `blueprint-sync` → `context-save` → `context-restore` → `btw` → `export` |
 | Playbooks | `playbook-new-feature` → `playbook-bug-fix` → `playbook-review-deep` |
 

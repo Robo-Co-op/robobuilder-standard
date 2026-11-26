@@ -2,6 +2,31 @@
 
 All notable changes to robobuilder.
 
+## [1.11.0] — 2026-11-11
+
+The Robo-Co-op org ran out of GitHub Actions minutes in October. It gets 2,000 free minutes a
+month for private repos plus a $5 budget, and once that is spent **all** Actions stop. A large
+share went to scheduled jobs that each finish in seconds but are billed a full minute per run:
+three `*/15` pollers and an hourly check, ~700–900 minutes a month. One of them came from this
+repo's own Asana-sync guide.
+
+### Added
+- **`server-scheduled-jobs`** (P5 Ship) — run cron jobs, syncs and "keep the server in step
+  with main" from a systemd timer on a server the team already has, instead of an Actions
+  `schedule:`. The server fetches the repo with a read-only deploy key and runs the job from the
+  latest `main`. Ships `run-job.sh` (it fails closed: a failed fetch never runs an old checkout,
+  overlapping runs are skipped, and every run has a timeout), hardened `scheduled-job@` systemd
+  units, and `install-job.sh`, which pins GitHub's host key and keeps secrets in a root-only
+  file per job. `scripts/tests/test_server_scheduled_jobs.py` drives the script against a local
+  git remote.
+
+### Changed
+- **`docs/GITHUB_ASANA_SYNC.md`** no longer has teams copy a `*/15` reverse-sync schedule. It
+  now recommends a server timer, or at most hourly in Actions, and explains the cost.
+- **CI runs once per change, not twice.** `tests.yml` ran on push to every branch and again on
+  the PR. The PR run now happens only for forks, and a newer push cancels the older run.
+- Fixed a missing `</tr>` after the v1.9.0 row in the site's release ledger (EN/JA).
+
 ## [1.10.1] — 2026-11-11
 
 ### Fixed

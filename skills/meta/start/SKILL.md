@@ -7,7 +7,7 @@ origin: robobuilder
 # /robobuilder:start
 
 ## What
-Interactive onboarding that turns the 42-skill catalog into a personalized 3-skill starter pack based on who the user is and what they're doing right now.
+Interactive onboarding that turns the 43-skill catalog into a personalized 3-skill starter pack based on who the user is and what they're doing right now.
 
 ## When
 - User just installed robobuilder for the first time
@@ -17,7 +17,7 @@ Interactive onboarding that turns the 42-skill catalog into a personalized 3-ski
 Do NOT use this when the user already knows what skill they want — that wastes their time.
 
 ## Why
-42 skills is overwhelming without guidance. Without a router, users either pick the wrong skill or default to plain chat. Compounding Engineering only works if the right skill fires in the right moment.
+43 skills is overwhelming without guidance. Without a router, users either pick the wrong skill or default to plain chat. Compounding Engineering only works if the right skill fires in the right moment.
 
 ## How
 
@@ -112,7 +112,7 @@ Claude: Bug-fix scenario. Try this:
 ```
 
 ## Anti-pattern
-Don't dump all 42 skills as a list. Don't ask 10 questions — 3 is the budget. Don't recommend more than 3 skills + 1 playbook + 1 doc.
+Don't dump all 43 skills as a list. Don't ask 10 questions — 3 is the budget. Don't recommend more than 3 skills + 1 playbook + 1 doc.
 
 ## See Also
 - Next step (always): the 3 skills returned by this wizard
